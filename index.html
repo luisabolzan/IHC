@@ -1,1719 +1,588 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="light">
-
+<html lang="pt-BR">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resumo de IHC - Interação Humano-Computador</title>
+    <title>Resumo P2 - Sistemas Operacionais (Completo)</title>
+    <!-- Fontes modernas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
-
         :root {
-            --bg-primary: #f8fafc;
-            --bg-card: #ffffff;
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --primary: #2563eb;
-            --primary-light: #dbeafe;
-            --primary-dark: #1d4ed8;
-            --border-color: #e2e8f0;
-            --accent: #8b5cf6;
-            --accent-light: #ede9fe;
-            --success: #10b981;
-            --success-light: #d1fae5;
-            --warning: #d97706;
-            --warning-light: #fef3c7;
-            --font-sans: 'Plus Jakarta Sans', sans-serif;
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --bg-color: #0f172a;
+            --surface-color: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.5);
+            --warning-bg: rgba(245, 158, 11, 0.1);
+            --warning-border: #f59e0b;
+            --danger-bg: rgba(239, 68, 68, 0.1);
+            --danger-border: #ef4444;
+            --success-bg: rgba(16, 185, 129, 0.1);
+            --success-border: #10b981;
         }
 
-        [data-theme="dark"] {
-            --bg-primary: #0b1329;
-            --bg-card: #111a36;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --primary: #3b82f6;
-            --primary-light: rgba(59, 130, 246, 0.15);
-            --primary-dark: #60a5fa;
-            --border-color: #1e293b;
-            --accent: #a78bfa;
-            --accent-light: rgba(167, 139, 250, 0.15);
-            --success: #34d399;
-            --success-light: rgba(52, 211, 153, 0.15);
-            --warning: #fbbf24;
-            --warning-light: rgba(251, 191, 36, 0.15);
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            font-family: var(--font-sans);
-            line-height: 1.625;
-            transition: var(--transition);
-        }
-
-        /* Scrollbar Personalizado */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg-primary);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--text-secondary);
-        }
-
-        .app-container {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
             display: flex;
-            max-width: 1440px;
-            margin: 0 auto;
             min-height: 100vh;
-            position: relative;
         }
 
-        /* Sidebar */
+        /* Sidebar Glassmorphism */
         .sidebar {
             width: 320px;
-            border-right: 1px solid var(--border-color);
-            padding: 30px 24px;
+            height: 100vh;
             position: sticky;
             top: 0;
-            height: 100vh;
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 2.5rem 2rem;
+            box-sizing: border-box;
             overflow-y: auto;
-            background: var(--bg-card);
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            flex-shrink: 0;
+            z-index: 10;
         }
 
-        .sidebar-title {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .sidebar h2 {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            margin-top: 0;
         }
 
-        .search-container {
-            position: relative;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 10px 16px 10px 38px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            font-family: var(--font-sans);
-            font-size: 0.875rem;
-            transition: var(--transition);
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px var(--primary-light);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-secondary);
-            pointer-events: none;
-        }
-
-        .nav-list {
+        .sidebar ul {
             list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
+            padding: 0;
+            margin: 0;
         }
 
-        .nav-item a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 14px;
-            border-radius: 8px;
-            color: var(--text-secondary);
+        .sidebar li {
+            margin-bottom: 0.8rem;
+        }
+
+        .sidebar a {
+            color: var(--text-main);
             text-decoration: none;
-            font-size: 0.875rem;
-            font-weight: 500;
-            transition: var(--transition);
+            font-size: 0.95rem;
+            display: block;
+            padding: 0.6rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            opacity: 0.8;
         }
 
-        .nav-item a:hover,
-        .nav-item.active a {
-            color: var(--primary);
-            background: var(--primary-light);
-        }
-
-        .theme-toggle-btn {
-            margin-top: auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            font-family: var(--font-sans);
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .theme-toggle-btn:hover {
-            background: var(--border-color);
+        .sidebar a:hover {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--accent);
+            transform: translateX(5px);
         }
 
         /* Main Content */
-        .main-content {
+        .content {
             flex: 1;
-            padding: 40px 60px;
+            padding: 4rem 5rem;
             max-width: 960px;
-            overflow-x: hidden;
+            line-height: 1.8;
+            font-size: 1.05rem;
         }
 
-        header {
-            margin-bottom: 40px;
+        h1, h2, h3, h4 {
+            color: var(--text-main);
+            line-height: 1.3;
         }
 
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 4px 12px;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            background: var(--primary-light);
-            color: var(--primary);
-            margin-bottom: 12px;
-        }
-
-        header h1 {
-            font-size: 2.25rem;
-            font-weight: 800;
-            line-height: 1.25;
-            margin-bottom: 16px;
-            letter-spacing: -0.025em;
-        }
-
-        header .lead {
-            font-size: 1.125rem;
-            color: var(--text-secondary);
-        }
-
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 32px;
-            margin-bottom: 32px;
-            box-shadow: var(--shadow-sm);
-            transition: var(--transition);
-        }
-
-        .card:hover {
-            box-shadow: var(--shadow-md);
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            margin-top: 0;
+            background: -webkit-linear-gradient(45deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
         }
 
         h2 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 24px;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 8px;
+            font-size: 2.2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0.8rem;
+            margin-top: 4rem;
+            margin-bottom: 1.5rem;
         }
-
+        
         h3 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-top: 24px;
-            margin-bottom: 16px;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-top: 2.5rem;
         }
-
+        
         h4 {
-            font-size: 1.05rem;
+            font-size: 1.1rem;
+            color: #e2e8f0;
+            margin-top: 1.5rem;
             font-weight: 600;
-            margin-top: 18px;
-            margin-bottom: 8px;
-            color: var(--text-primary);
         }
 
         p {
-            margin-bottom: 16px;
-            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            color: var(--text-muted);
         }
 
-        /* Listas Formatadas e Organizadas */
-        ul,
-        ol {
-            margin-bottom: 16px;
-            padding-left: 24px;
+        ul {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
         }
 
         li {
-            margin-bottom: 8px;
-            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
         }
 
-        li strong {
-            color: var(--text-primary);
-        }
-
-        ul ul,
-        ul ol,
-        ol ul,
-        ol ol {
-            margin-top: 8px;
-            margin-bottom: 8px;
-        }
-
-        /* Highlight Boxes para itens cruciais */
-        .highlight-box {
-            border-left: 4px solid var(--primary);
-            background-color: var(--primary-light);
-            margin: 20px 0;
-            padding: 16px 20px;
-            border-radius: 0 12px 12px 0;
-        }
-
-        .highlight-box.alert {
-            border-color: var(--warning);
-            background-color: var(--warning-light);
-        }
-
-        .highlight-box-title {
-            font-weight: 700;
-            font-size: 0.95rem;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-primary);
-        }
-
-        .highlight-box.alert .highlight-box-title {
-            color: var(--warning);
+        strong {
+            color: #e2e8f0;
         }
 
         code {
-            background-color: var(--bg-primary);
-            padding: 2px 6px;
-            border-radius: 6px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.9em;
-            border: 1px solid var(--border-color);
-            color: var(--primary);
-        }
-
-        hr {
-            border: 0;
-            border-top: 1px solid var(--border-color);
-            margin: 30px 0;
-        }
-
-        blockquote {
-            border-left: 4px solid var(--primary);
-            background-color: var(--bg-primary);
-            margin: 15px 0;
-            padding: 10px 20px;
-            color: var(--text-secondary);
-            font-style: italic;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.2rem 0.5rem;
             border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            color: #e2e8f0;
+            font-size: 0.9em;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* Marcadores Visuais Modernos de Lista */
-        .custom-list {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .custom-list>li {
+        /* Pegadinhas / Callouts */
+        .callout {
+            padding: 1.5rem 2rem;
+            border-left: 4px solid;
+            border-radius: 8px;
+            margin: 2.5rem 0;
+            background: var(--surface-color);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
-            padding-left: 24px;
-            margin-bottom: 12px;
         }
 
-        .custom-list>li::before {
-            content: "•";
-            color: var(--primary);
-            font-weight: bold;
-            font-size: 1.25rem;
-            position: absolute;
-            left: 8px;
-            top: -2px;
+        .callout:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 20px -3px rgba(0, 0, 0, 0.4);
         }
 
-        .task-3d-box {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
+        .callout.warning {
+            border-color: var(--warning-border);
+            background: var(--warning-bg);
         }
 
-        .task-3d-box h4 {
-            margin-top: 0;
-            color: var(--primary);
+        .callout.danger {
+            border-color: var(--danger-border);
+            background: var(--danger-bg);
+        }
+        
+        .callout.success {
+            border-color: var(--success-border);
+            background: var(--success-bg);
+        }
+
+        .callout-title {
             display: flex;
             align-items: center;
-            gap: 8px;
-        }
-
-        /* Tabela Estilizada para Testes Estatísticos */
-        .decision-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            font-size: 0.9rem;
-        }
-
-        .decision-table th,
-        .decision-table td {
-            border: 1px solid var(--border-color);
-            padding: 12px;
-            text-align: left;
-        }
-
-        .decision-table th {
-            background-color: var(--primary-light);
-            color: var(--primary-dark);
             font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
         }
 
-        .decision-table tr:nth-child(even) {
-            background-color: var(--bg-primary);
+        .callout.warning .callout-title { color: var(--warning-border); }
+        .callout.danger .callout-title { color: var(--danger-border); }
+        .callout.success .callout-title { color: var(--success-border); }
+
+        .callout p:last-child {
+            margin-bottom: 0;
         }
 
-        /* Estilos de Abas Interativas para Gabaritos */
-        .tabs-container {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 24px;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 8px;
-        }
-
-        .tab-btn {
-            padding: 10px 20px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            background: var(--bg-primary);
-            color: var(--text-secondary);
-            font-family: var(--font-sans);
-            font-weight: 600;
-            font-size: 0.875rem;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .tab-btn:hover {
-            color: var(--primary);
-            border-color: var(--primary);
-        }
-
-        .tab-btn.active {
-            background: var(--primary);
-            color: #ffffff;
-            border-color: var(--primary);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .tab-panel {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .tab-panel.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(8px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .gabarito-item {
-            margin-bottom: 24px;
-            border-bottom: 1px dashed var(--border-color);
-            padding-bottom: 16px;
-        }
-
-        .gabarito-item:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
-
-        .question-title {
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-            font-size: 0.975rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .answer-box {
-            background: var(--bg-primary);
-            border-radius: 8px;
-            padding: 14px 18px;
-            color: var(--text-secondary);
-            border-left: 3px solid var(--primary);
-        }
-
-        .answer-box.accent-border {
-            border-left-color: var(--accent);
-        }
-
-        .answer-box.success-border {
-            border-left-color: var(--success);
-        }
-
-        /* Mobile View Toggle */
-        .menu-toggle {
-            display: none;
-            background: var(--bg-card);
-            border: none;
-            color: var(--text-primary);
-            padding: 12px 20px;
-            font-weight: 700;
-            font-family: var(--font-sans);
-            cursor: pointer;
-            width: 100%;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        /* Responsive design */
+        /* Responsividade */
         @media (max-width: 1024px) {
-            .app-container {
+            .content {
+                padding: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
                 flex-direction: column;
             }
-
             .sidebar {
                 width: 100%;
                 height: auto;
+                position: relative;
                 border-right: none;
-                border-bottom: 1px solid var(--border-color);
-                position: static;
-                padding: 20px;
-                display: none;
-                /* Controlado pelo botão do menu */
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                padding: 1.5rem;
             }
-
-            .sidebar.show {
-                display: flex;
+            .content {
+                padding: 2rem 1.5rem;
             }
-
-            .menu-toggle {
-                display: flex;
-            }
-
-            .main-content {
-                padding: 30px 20px;
-            }
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.6rem; }
+        }
+        
+        ::selection {
+            background: var(--accent);
+            color: #000;
         }
     </style>
 </head>
-
 <body>
 
-    <!-- Menu Toggle para Mobile -->
-    <button class="menu-toggle" onclick="toggleSidebar()">
-        <span>📚 Menu de Conteúdo</span>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-    </button>
+    <nav class="sidebar">
+        <h2>Tópicos (P2)</h2>
+        <ul>
+            <li><a href="#intro-memoria">1. Gerência de Memória</a></li>
+            <li><a href="#paginacao-segmentacao">2. Paginação e Segmentação</a></li>
+            <li><a href="#memoria-virtual">3. Memória Virtual</a></li>
+            <li><a href="#substituicao-paginas">4. Substituição de Páginas</a></li>
+            <li><a href="#thrashing">5. Thrashing e Quadros</a></li>
+            <li><a href="#discos-escalonamento">6. Discos Magnéticos e SSDs</a></li>
+            <li><a href="#arquivos-diretorios">7. Sist. Arquivos e Diretórios</a></li>
+            <li><a href="#raid-vfs">8. Confiabilidade, RAID e VFS</a></li>
+            <li><a href="#gerencia-io">9. Gerência de I/O</a></li>
+            <li><a href="#kernel-ebpf">10. Linux, Containers e eBPF</a></li>
+        </ul>
+    </nav>
 
-    <div class="app-container">
+    <main class="content">
+        <h1>Resumo Aprofundado: Sistemas Operacionais</h1>
+        <p>Este material detalha de forma exaustiva o conteúdo exigido na segunda metade da disciplina (Aula 14 a 28), destacando detalhes teóricos, arquiteturas avançadas, algoritmos complexos e o comportamento exato esperado em provas e vida real de SREs.</p>
 
-        <!-- Sidebar de Navegação Dinâmica -->
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-title">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                </svg>
-                <span>Resumo IHC</span>
+        <section id="intro-memoria">
+            <h2>1. Gerência de Memória: Introdução</h2>
+            <p>O sistema operacional deve permitir que múltiplos processos coexistam na RAM, assegurando <strong>Proteção</strong> (um processo não enxergar o bloco do outro) e <strong>Realocação</strong> (programa pode ser movido sem corromper ponteiros fixos).</p>
+            
+            <h3>Registradores Base e Limite e MMU</h3>
+            <ul>
+                <li><strong>Sem Abstração:</strong> Sistemas primitivos rodavam sem abstração, onde o programa escrevia na memória física absoluta. A <strong>Realocação Estática</strong> falhava em segurança e lentidão. O <strong>Espaço de Endereçamento</strong> (via Base e Limite) resolveu isso.</li>
+                <li><strong>Base e Limite:</strong> A base dita o Início Físico, e o Limite dita o Tamanho. Qualquer acesso gerado pela CPU cujo Lógico &ge; Limite dispara Trap (segmentation fault).</li>
+                <li><strong>MMU (Memory Management Unit):</strong> Processador auxiliar em hardware que soma <code>Base + Lógico = Físico</code> instantaneamente na execução.</li>
+                <li><strong>Binding (Tempo de Vinculação):</strong> Compilação (endereço real idêntico, ex: .COM em DOS), Carga (reloca no carregamento de disco pra RAM) e <strong>Execução</strong> (endereço virtual abstraído, padrão moderno, permite swap).</li>
+            </ul>
+
+            <h3>Carga Dinâmica vs Vinculação Dinâmica (Shared Libraries)</h3>
+            <ul>
+                <li><strong>Carga Dinâmica:</strong> A rotina só é carregada do disco se for chamada. Não requer suporte do SO, poupa RAM em rotinas de erro.</li>
+                <li><strong>Vinculação Dinâmica (Dynamic Linking):</strong> A biblioteca não é incluída no executável; um <em>stub</em> de ligação assume seu lugar. Na execução, o SO compartilha a mesma biblioteca carregada na RAM para vários processos diferentes, economizando extrema quantidade de memória.</li>
+            </ul>
+
+            <h3>Swapping (Permuta)</h3>
+            <p>O <em>swapping</em> original move o processo inteiro da RAM pro disco e vice-versa. Por conta da lentidão gritante do I/O de disco, hoje é evitado ou substituído por gerência de quadros. No iOS e Android, o swapping sequer existe (apps ociosos são destruídos pra poupar o desgaste da flash memory).</p>
+            <h3>Alocação Contígua: Particionamento Estático e Dinâmico</h3>
+            <p>O despachante do SO (dispatcher) carrega os registradores de relocação ao realizar a troca de contexto.</p>
+            <ul>
+                <li><strong>Particionamento Estático (MFT):</strong> A RAM é dividida em blocos de tamanho fixo. O grau de multiprogramação fica restrito.</li>
+                <li><strong>Particionamento Dinâmico (MVT):</strong> O SO gerencia "brechas" de tamanhos variáveis na RAM. Ao liberar blocos, o SO faz a <strong>Fusão de Brechas</strong> unindo blocos adjacentes para atrasar a fragmentação.</li>
+            </ul>
+
+            <h3>Estratégias de Alocação</h3>
+            <ul>
+                <li><strong>First-fit (Primeiro-apto):</strong> Rápido, acha o primeiro buraco livre capaz.</li>
+                <li><strong>Next-fit (Próximo-apto):</strong> Rápido também, mas recomeça de onde a última busca parou.</li>
+                <li><strong>Best-fit (Mais-apto):</strong> Acha o buraco que mais se aproxima do tamanho. Causa sobras irrisórias que quebram a RAM toda em mini-fragmentos externos (pior fragmentação).</li>
+                <li><strong>Worst-fit (Menos-apto):</strong> Acha o maior buraco na memória e deixa sobra considerável de espaço, útil pra próximos processos alocarem na sobra.</li>
+                <li><strong>Quick-fit:</strong> Usa listas encadeadas separadas por tamanhos comuns (extremamente rápido).</li>
+            </ul>
+
+            <h3>Gerenciamento de Memória Livre</h3>
+            <ul>
+                <li><strong>Mapa de Bits (Bitmaps):</strong> Usa 1 bit (0/1) para cada fatia. Paga um preço altíssimo para buscar longas correntes de zeros em processos grandes.</li>
+                <li><strong>Lista Encadeada:</strong> Mantém nodos de Processos (P) e Livres (L). Excelente pois pode facilmente fundir um processo extinto seus vizinhos formarem a configuração <code>(L P L) &rarr; L</code>.</li>
+            </ul>
+
+            <div class="callout warning">
+                <div class="callout-title">⚠️ Fragmentação, Regra dos 50% e Compactação</div>
+                <p><strong>Fragmentação Externa:</strong> Ao longo do ciclo de vida, a alocação contígua deixa o espaço livre espalhado. A famosa <strong>Regra dos 50%</strong> diz que para cada N blocos alocados, 0,5N serão perdidos por fragmentação (cerca de 1/3 da memória vira lixo).<br><br>
+                <strong>Compactação:</strong> Só é realizável se o Binding (Vinculação) for em <em>Tempo de Execução</em>. O SO paralisa a máquina e desfragmenta as áreas. Custo de CPU enorme.</p>
+            </div>
+        </section>
+
+        <section id="paginacao-segmentacao">
+            <h2>2. Paginação e Segmentação</h2>
+            <p><strong>A Paginação extingue a Fragmentação Externa.</strong> Ela fatia a RAM física em <strong>Quadros (Frames)</strong> fixos e a memória Lógica em <strong>Páginas</strong> do exato mesmo tamanho (usualmente 4KB).</p>
+            <ul>
+                <li>Se um processo pede 17KB e as páginas têm 4KB, são cedidas 5 páginas (20KB). O processo vai jogar 3KB no lixo virtualmente, causando o que chamamos de <strong>Fragmentação Interna</strong>, em média 1/2 página por processo.</li>
+                <li>Qualquer página da RAM Física Livre pode abrigar qualquer página lógica aleatória do processo, não existe mais "brechas".</li>
+            </ul>
+
+            <h3>A Entrada da Tabela de Páginas (PTE) e Compartilhamento</h3>
+            <ul>
+                <li>Cada entrada tem &sim;32 bits. Além do número do quadro (f), possui <strong>bits de proteção (RWX)</strong>, o bit de <strong>Válido/Inválido</strong>, o bit <strong>Referenciada</strong> (usada no cacheLRU) e a <strong>Modificada (Dirty bit)</strong> (que indica se a RAM foi alterada e precisa ser gravada no disco antes de sobrescrever).</li>
+                <li><strong>Compartilhamento:</strong> Código Reentrante (read-only, que não muda na execução como um binário da libc) pode ser compartilhado fisicamente. Processos A e B apontam seus endereços virtuais para o mesmíssimo quadro físico de RAM.</li>
+            </ul>
+
+            <h3>A TLB e o Context Switch</h3>
+            <p>A MMU converte o Número da Página <code>(p)</code> para Quadro Físico <code>(f)</code> e o Deslocamento <code>(d)</code> passa limpo. O problema é que ler a Tabela de Páginas consome uma viagem de hardware para a RAM.</p>
+            
+            <div class="callout danger">
+                <div class="callout-title">🚨 TLB (Translation Lookaside Buffer) e seus Misses</div>
+                <p>A TLB é uma cache de hardware hiperveloz na MMU, que opera com base no <strong>Princípio da Localidade (Temporal e Espacial)</strong>. Hit rate &gt; 99% (traduz em 1 ciclo).</p>
+                <ul>
+                    <li><strong>Soft Miss:</strong> A página está na RAM mas não na TLB. A CPU faz o <em>page walk</em> na RAM (custa 10 a 100 ciclos) e abastece a TLB.</li>
+                    <li><strong>Hard Miss:</strong> O infame Page Fault. A página não está na RAM, mas no disco. O custo é bizarro de tão alto (1 milhão de vezes mais lento que o Hit).</li>
+                </ul>
+                <p>Se ocorrer <strong>Troca de Contexto</strong>, opções do SO:<br>
+                1. <strong>Flush:</strong> Apaga tudo. Inicia a próxima thread com a TLB fria. <br>
+                2. <strong>ASID (Address Space ID):</strong> O hardware registra o PID/ID do processo nas entradas da TLB. Acelerador gigantesco pois não exige limpeza das entradas vizinhas.</p>
             </div>
 
-            <!-- Busca interativa -->
-            <div class="search-container">
-                <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
-                <input type="text" id="searchInput" class="search-input" placeholder="Buscar termos..."
-                    oninput="filterContent()">
+            <h3>Tabelas Avançadas para Grandes Espaços</h3>
+            <ul>
+                <li><strong>Hierárquica / Multinível:</strong> Fatiada em níveis para que áreas contíguas não-usadas (típicas em sistemas 64-bits) não gerem diretórios alocados inúteis comendo Megabytes da RAM.
+                    <ul>
+                        <li><em>Exemplo VAX:</em> 2 níveis (Seção, Página, Deslocamento).</li>
+                        <li><em>Exemplo Pentium Pro:</em> 3 níveis com PAE (Page Address Extension) para chegar até 64GB físicos.</li>
+                        <li><em>Exemplo x86-64 (Atual):</em> 4 níveis de paginação (usa 48 bits de endereço virtual mapeando até 256TB, para 52 bits físicos mapeando até 4PB).</li>
+                    </ul>
+                </li>
+                <li><strong>Tabela de Páginas com Hash:</strong> Ótima para 64-bits esparsos. O número da página virtual passa por um hash que aponta para uma lista encadeada (para tratar colisões). A versão <strong>Agrupada</strong> mapeia grupos inteiros contíguos de páginas (ex: 16 de cada vez) reduzindo o tamanho em 16x.</li>
+                <li><strong>Tabela Invertida:</strong> O seu tamanho é atrelado à quantidade de Quadros Físicos. Apenas 1 entrada por quadro real (ex: PowerPC, UltraSPARC). Economiza horrores, mas achar qual a página virtual exige varredura de software caso a TLB dê Miss. O compartilhamento de RAM entre processos se torna um pesadelo (pois a página física só aponta para 1 endereço virtual).</li>
+            </ul>
+
+            <h3>Segmentação Pura vs Segmentação com Paginação</h3>
+            <ul>
+                <li><strong>Segmentação Pura:</strong> Abordagem bidimensional (segmento, deslocamento) que atende a visão lógica do programador. Permite que estruturas cresçam independentemente (código, matrizes, pilha). Facilita o compartilhamento. Porém, gera lacunas irregulares gerando altíssima <strong>Fragmentação Externa (Checker Boarding)</strong>. Exige compactação.</li>
+                <li><strong>Segmentação com Paginação (MULTICS, 1969):</strong> Para resolver o <em>checker boarding</em> de ter segmentos inteiros na RAM, o sistema divide logicamente o programa em segmentos, mas fisicamente <em>cada segmento é paginado</em>! Só as páginas ativas do segmento ficam na RAM. Primeiro SO a ter TLB.</li>
+            </ul>
+
+            <div class="callout success">
+                <div class="callout-title">✅ Comparativo Final: Paginação vs Segmentação</div>
+                <p><strong>Paginação:</strong> Programador NÃO sabe que existe. O espaço de endereçamento é 1 só. Acomoda estruturas dinâmicas fracamente. Sofre Fragmentação Interna.<br>
+                <strong>Segmentação:</strong> Programador SABE que existe (visão lógica). Possui MUITOS espaços de endereçamento. Acomoda estruturas dinâmicas e compartilhamento perfeitamente. Sofre Fragmentação Externa.</p>
+            </div>
+        </section>
+
+        <section id="memoria-virtual">
+            <h2>3. Memória Virtual e Paginação Sob Demanda</h2>
+
+            <h3>O Espaço Esparso e a Solução dos Overlays</h3>
+            <p>Antes da memória virtual, devs usavam <strong>Overlays</strong> (fatiando módulos manualmente para caber na RAM). Hoje, a Paginação abstrai a RAM e cria o espaço virtual lógico bidirecional: A <strong>Pilha (Stack) desce</strong> e o <strong>Heap sobe</strong>. O vazio no meio é o Espaço Esparso que sequer consome memória real física, até ser tocado.</p>
+
+            <h3>Paginação Sob Demanda e a Física do EAT</h3>
+            <p>O <em>Lazy Swapper</em>. A memória virtual carrega somente o que é requisitado. Adiciona-se o <strong>Bit V/I (Válido/Inválido)</strong>. Um processo pode iniciar de forma "Pura" (com absolutamente nenhuma página carregada, dando falta na 1ª instrução).</p>
+            <ul>
+                <li><strong>Tempo de Acesso Efetivo (EAT):</strong> <code>EAT = (1 - p)*T_ram + p*T_disco</code>. Onde <code>p</code> é a chance do Page Fault. Um erro em cada 1.000 (<code>p=0.001</code>) desacelera o computador 40 vezes! O sistema só não colapsa graças ao Princípio da Localidade.</li>
+            </ul>
+
+            <h3>A Mecânica do Page Fault</h3>
+            <p>O que acontece fisicamente no computador quando ocorre uma armadilha (trap) por <strong>Bit Inválido (Page Fault)</strong>?</p>
+            <ol>
+                <li>Hardware intercepta para o SO salvando os registradores.</li>
+                <li>O SO checa a tabela interna: se o Ponteiro é Selvagem (ilegal), manda <code>SIGSEGV</code>. Se está no Swap Disk, autoriza o I/O.</li>
+                <li>Procura um quadro livre físico na RAM e agenda leitura com o disco. <strong>O Processo vira BLOQUEADO.</strong></li>
+                <li>Disco interrompe quando os Bytes chegam na RAM. O Bit da Tabela acende pra Válido.</li>
+                <li>O processo volta pra fila Pronta, restaura os registradores e <strong>Reinicia rigorosamente na mesma instrução</strong> de CPU sem perder continuidade.</li>
+            </ol>
+
+            <h3>TLB de Múltiplos Níveis</h3>
+            <p>Para evitar que ocorra o <em>Page Table Walk</em> na RAM, a MMU de CPUs top de linha (i7) divide a TLB:</p>
+            <ul>
+                <li><strong>L1 TLB:</strong> Separada em Dados e Instruções. Extremamente pequena (64 slots) e rápida (1 ciclo).</li>
+                <li><strong>L2 TLB:</strong> Unificada e maior (1500+ slots). Mais lenta (~6 ciclos) mas evita o desastre de ir pra RAM.</li>
+            </ul>
+
+            <h3>Copy-on-Write (CoW) e Swap nos Celulares</h3>
+            <ul>
+                <li><strong>CoW:</strong> Um <code>fork()</code> normal copiaria todo o pai. O CoW faz pai e filho apontarem fisicamente pro mesmo bloco Read-Only. Se um tentar escrever, rola Trap e o SO duplica só a página escrita ali na hora.</li>
+                <li><strong>Dispositivos Móveis:</strong> Swap normal de PC destroi a memória flash por desgaste contínuo de escrita. iOS e Android usam zero Swap tradicional; se faltar RAM, eles fecham sumariamente processos suspensos.</li>
+            </ul>
+
+            <div class="callout success">
+                <div class="callout-title">💡 Copy-on-Write (CoW) nos Processos</div>
+                <p>Mágica das Systems Calls modernas (Linux <code>fork()</code>). O SO não clona GBs de memória de Pai para Filho, isso custaria 15 segundos! Eles compartilham exatos ponteiros pra mesma RAM Read-Only. Se qualquer um tentar escrever (modificar algo), a página apita armadilha, o SO paralisa, duplica cirurgicamente apenas ESSA PÁGINA ESPECÍFICA suja. Altíssima eficiência para containers e forks.</p>
+            </div>
+        </section>
+
+        <section id="substituicao-paginas">
+            <h2>4. Substituição de Páginas (Algoritmos e Vítimas)</h2>
+            <p>O Swap na RAM cheia exige sacrifícios de páginas. O <strong>Bit Modificado/Sujo (M)</strong> dita que se a página que for sair estiver suja, o SO *precisa* salvá-la de novo no Swap gastando disco. Se tiver limpa (M=0), SO só descarta instantaneamente.</p>
+
+            <div class="callout danger">
+                <div class="callout-title">🚨 O Paradoxo Macabro: Anomalia de Bélády</div>
+                <p>Num mundo onde a intuição diz "Compre mais RAM pra ficar rápido", o uso de algoritmos <strong>FIFO</strong> dita que colocar 4 ou 5 quadros extras pode gerar <strong>MAIS FALHAS DE PÁGINA (Page Faults)</strong>. É a quebra matemática por ele empurrar as essenciais antigas para a rua. Algoritmos de Pilha (LRU/OPT) NUNCA tem esse problema.</p>
             </div>
 
-            <nav>
-                <ul class="nav-list">
-                    <li class="nav-item"><a href="#intro"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                            </svg>1. Fundamentos</a></li>
-                    <li class="nav-item"><a href="#processo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                            </svg>2. Concepção</a></li>
-                    <li class="nav-item"><a href="#avaliacao"><svg width="16" height="16" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                <polyline points="14 2 14 8 20 8"></polyline>
-                                <line x1="16" y1="13" x2="8" y2="13"></line>
-                                <line x1="16" y1="17" x2="8" y2="17"></line>
-                                <polyline points="10 9 9 9 8 9"></polyline>
-                            </svg>3. Avaliação</a></li>
-                    <li class="nav-item"><a href="#mobile"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-                                <line x1="12" y1="18" x2="12.01" y2="18"></line>
-                            </svg>4. Mundo Mobile</a></li>
-                    <li class="nav-item"><a href="#xr"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <path
-                                    d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
-                                </path>
-                            </svg>5. Interação 3D & XR</a></li>
-                    <li class="nav-item"><a href="#questoes"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <path
-                                    d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3m.08 4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z">
-                                </path>
-                            </svg>Dicas de Prova</a></li>
-                    <li class="nav-item"><a href="#gabarito"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2">
-                                <path d="M9 11l3 3L22 4M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"></path>
-                            </svg>6. Gabarito de Provas</a></li>
-                </ul>
-            </nav>
-
-            <!-- Toggle do Tema -->
-            <button class="theme-toggle-btn" onclick="toggleTheme()">
-                <svg id="themeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2">
-                    <circle cx="12" cy="12" r="5"></circle>
-                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                    <line x1="1" y1="12" x2="3" y2="12"></line>
-                    <line x1="21" y1="12" x2="23" y2="12"></line>
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                </svg>
-                <span id="themeText">Modo Escuro</span>
-            </button>
-        </aside>
-
-        <!-- Conteúdo Principal -->
-        <main class="main-content">
-            <header>
-                <span class="badge">Guia de Estudos Completo</span>
-                <h1>Interação Humano-Computador (IHC)</h1>
-                <p class="lead">Este resumo foi elaborado com base nos slides da disciplina, integrando os tópicos das
-                    provas anteriores, preenchendo todas as lacunas de conteúdo e trazendo as definições exatas exigidas
-                    em avaliações acadêmicas.</p>
-            </header>
-
-            <!-- SEÇÃO 1 -->
-            <section id="intro" class="card search-target">
-                <h2>1. Introdução e Fundamentos de IHC</h2>
-                <p>A <strong>Interação Humano-Computador (IHC)</strong> é uma área multidisciplinar voltada para o
-                    projeto, avaliação e implementação de sistemas computacionais interativos para uso humano, além dos
-                    fenômenos associados a esse uso. O objetivo principal é a comunicação entre o homem e a máquina.</p>
-                <ul class="custom-list">
-                    <li><strong>Interface:</strong> Parte do sistema com a qual o usuário entra em contato físico,
-                        perceptivo ou conceitual. <blockquote>"Para o usuário, a interface <em>é</em> o próprio sistema"
-                            (Alan Kay).</blockquote>
-                    </li>
-                    <li><strong>Interação:</strong> Processo que engloba as ações do usuário sobre o sistema e a
-                        interpretação dos resultados/respostas do sistema.</li>
-                </ul>
-
-                <h3>Evolução da Interação</h3>
-                <ul class="custom-list">
-                    <li><strong>Anos 60/70:</strong> Sistemas em <em>batch</em> (lotes). Usuário não interagia em tempo
-                        real.</li>
-                    <li><strong>Anos 80/90:</strong> Desktops. Interação direta usuário-sistema baseada em comandos e
-                        WIMP (Windows, Icons, Menus, Pointers).</li>
-                    <li><strong>Anos 2000:</strong> Integração de sistemas via Internet (Web).</li>
-                    <li><strong>Anos 2010 em diante:</strong> Computação pervasiva e ubíqua. Dispositivos integrados no
-                        ambiente, vestíveis (wearables), assistentes de voz (Alexa, Siri), realidade virtual e
-                        aumentada.</li>
-                </ul>
-
-                <div class="highlight-box alert">
-                    <div class="highlight-box-title">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-                        </svg>
-                        Teoria da Ação de Norman (1986)
-                    </div>
-                    <p>Norman propôs um modelo cognitivo para explicar a atividade mental envolvida na interação,
-                        composto por dois grandes golfos e 7 estágios:</p>
-                    <ul style="margin-left: 12px; margin-bottom: 12px;">
-                        <li><strong>Golfo de Execução:</strong> A distância entre o que o usuário deseja fazer e as
-                            ações físicas permitidas pelo sistema.</li>
-                        <li><strong>Golfo de Avaliação:</strong> A distância entre a resposta física do sistema e a
-                            capacidade do usuário de perceber e avaliar se atingiu seu objetivo.</li>
-                    </ul>
-
-                    <h4>Os 7 Estágios da Ação:</h4>
-                    <ol style="margin-left: 12px; margin-bottom: 12px;">
-                        <li><strong>Objetivo:</strong> O que se deseja alcançar (Mental).</li>
-                        <li><strong>Intenção (Execução):</strong> Decisão sobre qual ação tomar para atingir o objetivo
-                            (Mental).</li>
-                        <li><strong>Especificação da ação (Execução):</strong> Planejamento da sequência de comandos
-                            físicos a realizar (Mental).</li>
-                        <li><strong>Execução:</strong> Ação motora sobre os dispositivos de entrada (Física).</li>
-                        <li><strong>Percepção (Avaliação):</strong> Receber as respostas sensoriais do sistema
-                            (Física/Sensorial).</li>
-                        <li><strong>Interpretação (Avaliação):</strong> Dar sentido ao estado percebido da interface
-                            (Mental).</li>
-                        <li><strong>Avaliação:</strong> Julgar se o estado atual do sistema corresponde ao objetivo
-                            inicial (Mental).</li>
-                    </ol>
-
-                    <h4>Distâncias de Norman:</h4>
-                    <ul style="margin-left: 12px;">
-                        <li><strong>Distância Semântica:</strong> A distância entre duas fases mentais. O quão bem a
-                            interface reflete o modelo mental do usuário (ex: se os termos usados fazem sentido para a
-                            tarefa).</li>
-                        <li><strong>Distância Articulatória:</strong> A distância entre a fase mental e a fase física. A
-                            facilidade física de executar a ação ou ler a resposta (ex: facilidade de clicar em um botão
-                            pequeno vs. grande).</li>
-                    </ul>
-                </div>
-
-                <h3>Os Três Modelos Conceituais (Norman)</h3>
-                <p>Para que a comunicação funcione, três modelos mentais interagem:</p>
-                <ol>
-                    <li><strong>Modelo de Design (Designer's Model):</strong> O modelo conceitual que o projetista cria
-                        do sistema.</li>
-                    <li><strong>Imagem do Sistema (System Image):</strong> O sistema físico real construído (a
-                        interface, a documentação, o comportamento). É a única forma de comunicação do designer com o
-                        usuário.</li>
-                    <li><strong>Modelo de Uso (User's Model):</strong> O modelo mental que o usuário desenvolve sobre o
-                        funcionamento do sistema ao interagir com a imagem do sistema.</li>
-                </ol>
-
-                <h3>Princípios de Design e Usabilidade</h3>
-                <ul class="custom-list">
-                    <li><strong>Affordance:</strong> O que o objeto comunica sobre seu uso (dicas intuitivas). Ex: Botão
-                        com relevo indica que pode ser apertado.
-                        <ul>
-                            <li><em>Falsa Affordance:</em> Um elemento que parece ter uma função mas não tem (ex: texto
-                                azul e sublinhado que não é um link).</li>
-                        </ul>
-                    </li>
-                    <li><strong>Mapeamento:</strong> A relação lógica entre a disposição dos controles e seus efeitos
-                        (ex: botão de volume para cima aumenta o som, a organização dos queimadores de um fogão
-                        correspondendo aos botões).</li>
-                    <li><strong>Feedback:</strong> Resposta visual, auditiva ou tátil que avisa o usuário do andamento
-                        ou resultado de sua ação.</li>
-                    <li><strong>Visibilidade:</strong> Facilitar a descoberta da próxima ação mantendo comandos
-                        importantes expostos.</li>
-                    <li><strong>Restrições (Constraints):</strong> Impedir ações incorretas do usuário. Podem ser
-                        físicas (pinos), lógicas (desabilitar botão inválido) ou culturais (cores de alerta).</li>
-                    <li><strong>Consistência:</strong> Usar comandos, termos e layouts idênticos para tarefas
-                        semelhantes.</li>
-                </ul>
-
-                <h3>Metas em IHC</h3>
-                <ul class="custom-list">
-                    <li><strong>Metas de Usabilidade (Foco Pragmático):</strong>
-                        <ul>
-                            <li><em>Eficácia:</em> O usuário consegue atingir seus objetivos de forma correta?</li>
-                            <li><em>Eficiência:</em> Quão rápido o usuário realiza a tarefa?</li>
-                            <li><em>Segurança:</em> Previne erros e permite recuperação fácil (ex: Undo/Redo)?</li>
-                            <li><em>Utilidade:</em> O sistema tem todas as funcionalidades necessárias para a tarefa?
-                            </li>
-                            <li><em>Fácil de aprender:</em> O usuário consegue usar rapidamente no primeiro contato?
-                            </li>
-                            <li><em>Fácil de lembrar:</em> É fácil retornar ao sistema após algum tempo e lembrar como
-                                usar?</li>
-                        </ul>
-                    </li>
-                    <li><strong>Metas de Experiência do Usuário / UX (Foco Emocional):</strong> Ser divertido,
-                        agradável, gratificante, esteticamente apreciável, motivador, emocionalmente adequado.</li>
-                    <li><strong>Acessibilidade:</strong> Remoção de barreiras para que pessoas com deficiência usem o
-                        software (diretrizes como W3C/WCAG).</li>
-                    <li><strong>Comunicabilidade:</strong> Capacidade da interface de "transmitir" a lógica do design e
-                        os princípios de interação do projetista.</li>
-                </ul>
-            </section>
-
-            <!-- SEÇÃO 2 -->
-            <section id="processo" class="card search-target">
-                <h2>2. O Processo de Design e Concepção</h2>
-                <p>O design de IHC é <strong>Centrado no Usuário</strong> e <strong>Iterativo</strong>. Ele é composto
-                    por quatro grandes etapas principais:</p>
-                <ol style="margin-bottom: 24px; padding-left: 24px;">
-                    <li><strong>Análise Contextual:</strong> Entender os usuários, suas tarefas e seu contexto
-                        (detalhado na Seção 2.1).</li>
-                    <li><strong>Projeto da Interface:</strong> Projetar a estrutura, apresentação e diálogo (detalhado
-                        na Seção 2.2).</li>
-                    <li><strong>Prototipação:</strong> Materializar o design em protótipos de baixa ou alta fidelidade
-                        (detalhado na Seção 2.3).</li>
-                    <li><strong>Avaliação:</strong> Verificar se a interface atende aos requisitos de usabilidade e de
-                        UX (detalhado na Seção 3).</li>
-                </ol>
-
-                <h3>2.1. Análise Contextual (UX Research)</h3>
-                <p>Compreender o espaço do problema e levantar requisitos.</p>
-                <ul class="custom-list">
-                    <li><strong>Modelo de Usuário / Perfil:</strong> Levantamento dos atributos do usuário (frequência
-                        de uso, experiência na tarefa, conhecimento técnico, idade, escolaridade).</li>
-                    <li><strong>Personas:</strong> Personagens fictícios baseados em dados reais que sintetizam perfis
-                        de usuários para guiar as decisões de projeto.
-                        <ul>
-                            <li><em>Proto-personas:</em> Versões iniciais e preliminares construídas com base em
-                                suposições da equipe de desenvolvimento (precisam de validação posterior).</li>
-                        </ul>
-                    </li>
-                    <li><strong>Mapa de Empatia:</strong> Ferramenta visual que analisa o que a persona <em>pensa e
-                            sente</em>, <em>ouve</em>, <em>vê</em>, <em>fala e faz</em>, além de suas <em>dores</em>
-                        (frustrações) e <em>necessidades</em> (desejos de sucesso).</li>
-                    <li><strong>Stakeholders:</strong> Qualquer pessoa afetada pelo sistema.
-                        <ul>
-                            <li><em>Diretos:</em> Usuários finais que interagem com o sistema.</li>
-                            <li><em>Indiretos:</em> Pessoas afetadas pelo produto mas que não o usam diretamente (ex:
-                                gerentes de compras, equipe de TI, clientes do usuário).</li>
-                        </ul>
-                    </li>
-                    <li><strong>Modelo de Tarefas:</strong>
-                        <ul>
-                            <li><em>HTA (Análise Hierárquica de Tarefas):</em> Decompõe tarefas procedurais em
-                                objetivos, sub-objetivos e planos de execução (ex: "Fazer Chá" -> Ferver água, colocar
-                                sachê, etc.).</li>
-                            <li><em>CTT (Concur TaskTrees):</em> Relações lógicas e temporais mais complexas, como
-                                paralelismo, escolhas e tarefas interrompíveis.</li>
-                        </ul>
-                    </li>
-                    <li><strong>Cenários de Uso:</strong> Narrativas textuais detalhadas que descrevem o uso do sistema
-                        sob o ponto de vista de uma persona.</li>
-                    <li><strong>Storyboards:</strong> Histórias em quadrinhos/desenhos sequenciais que mostram a jornada
-                        do usuário e o contexto de uso do sistema.</li>
-                </ul>
-
-                <h3>2.2. Projeto da Interface</h3>
-                <ul class="custom-list">
-                    <li><strong>Modelo Conceitual:</strong> Formulação da lógica de funcionamento por meio de metáforas
-                        (ex: "lixeira", "cesta de compras").</li>
-                    <li><strong>Projeto de Apresentação:</strong> Definição dos <em>containers</em> (telas, janelas) e a
-                        organização dos widgets.</li>
-                    <li><strong>Projeto do Diálogo:</strong> Sequência dinâmica de telas e interações (Presentation
-                        Units e transições por eventos físicos, lógicos ou semânticos).</li>
-                </ul>
-
-                <h3>2.3. Prototipação</h3>
-                <ul class="custom-list">
-                    <li><strong>Horizontal:</strong> Interface quase completa (ampla), mas com funcionalidade reduzida
-                        (rasa). Foca na navegação e menus.</li>
-                    <li><strong>Vertical:</strong> Funcionalidade completa (profunda) de apenas uma parte específica do
-                        sistema (ex: tela de busca funcional, o resto simulado).</li>
-                    <li><strong>Fidelidade:</strong>
-                        <ul>
-                            <li><em>Baixa fidelidade:</em> Rápido e barato. Papel, post-its, Mágico de Oz.</li>
-                            <li><em>Alta fidelidade:</em> Figma, ferramentas interativas.</li>
-                        </ul>
-                    </li>
-                    <li><strong>Mágico de Oz (Wizard of Oz):</strong> Um humano simula a inteligência do sistema sem o
-                        usuário saber.</li>
-                    <li><strong>Diferença de Protótipo vs MVP:</strong> O protótipo foca em explorar e testar a
-                        usabilidade e o design com a equipe/usuários. O MVP (Mínimo Produto Viável) é lançado
-                        comercialmente no mercado para validar a proposta de negócios com clientes reais usando recursos
-                        mínimos.</li>
-                </ul>
-            </section>
-
-            <!-- SEÇÃO 3 -->
-            <section id="avaliacao" class="card search-target">
-                <h2>3. Avaliação de Interfaces</h2>
-                <p>A avaliação de IHC valida o design e garante a qualidade de uso (UX). Divide-se em:</p>
-
-                <h3>3.1. Métodos Preditivos / Por Inspeção (Sem Usuários)</h3>
-                <p>Realizados por especialistas em usabilidade baseados em diretrizes e teorias.</p>
-                <ul class="custom-list">
-                    <li><strong>Avaliação Heurística (Nielsen e Molich):</strong> 3 a 5 avaliadores especialistas
-                        inspecionam o protótipo buscando violações das 10 Heurísticas de Nielsen.
-
-                        <div class="highlight-box" style="margin: 15px 0;">
-                            <div class="highlight-box-title">Classificação de Severidade (0 a 4)</div>
-                            <ul style="padding-left: 12px; margin-bottom: 0;">
-                                <li><strong>Grau 0:</strong> Sem importância (não afeta a operação).</li>
-                                <li><strong>Grau 1:</strong> Cosmético (não há necessidade imediata de reparo).</li>
-                                <li><strong>Grau 2:</strong> Simples (baixa prioridade para reparo).</li>
-                                <li><strong>Grau 3:</strong> Grave (alta prioridade para reparo, bloqueia parcialmente).
-                                </li>
-                                <li><strong>Grau 4:</strong> Catastrófico (prioridade máxima, bloqueia o uso da
-                                    interface).</li>
-                            </ul>
-                        </div>
-                        <p><em>Dado empírico:</em> 5 avaliadores encontram cerca de 75% dos problemas de usabilidade.
-                        </p>
-
-                        <div class="highlight-box" style="margin: 10px 0; padding: 12px 16px;">
-                            <strong>As 10 Heurísticas:</strong>
-                            <ol style="margin-top: 6px; padding-left: 20px;">
-                                <li>Visibilidade do status</li>
-                                <li>Correspondência sistema/mundo real</li>
-                                <li>Controle e liberdade (Undo/Redo)</li>
-                                <li>Consistência e padrões</li>
-                                <li>Prevenção de erros</li>
-                                <li>Reconhecimento em vez de lembrança</li>
-                                <li>Flexibilidade e eficiência de uso (atalhos)</li>
-                                <li>Estética minimalista</li>
-                                <li>Boas mensagens de erro (ajudar a recuperar)</li>
-                                <li>Ajuda/Documentação</li>
-                            </ol>
-                        </div>
-                    </li>
-                    <li><strong>Percurso Cognitivo (Cognitive Walkthrough):</strong> Foco no <strong>aprendizado do
-                            usuário novato</strong>. O avaliador simula a execução de tarefas e responde a quatro
-                        perguntas em cada passo:
-                        <ol style="padding-left: 20px; margin-top: 8px;">
-                            <li>O usuário tentará atingir o resultado esperado (a ação é evidente)?</li>
-                            <li>O usuário perceberá que a ação correta está disponível?</li>
-                            <li>O usuário associará a ação correta com o resultado desejado?</li>
-                            <li>Após a ação, o usuário perceberá que está progredindo em direção ao objetivo (feedback
-                                adequado)?</li>
-                        </ol>
-                    </li>
-                    <li><strong>KLM (Keystroke Level Model):</strong> Modelo analítico que prevê o tempo de execução
-                        somando tempos empíricos de ações físicas e mentais de um usuário especialista:
-                        <ul style="padding-left: 20px; margin-top: 8px;">
-                            <li><code>K</code> (Pressionar tecla) = 0.20s (expert) a 1.20s (novato).</li>
-                            <li><code>P</code> (Apontar mouse) = 1.10s.</li>
-                            <li><code>H</code> (Mover mão entre teclado/mouse) = 0.40s.</li>
-                            <li><code>M</code> (Preparação mental) = 1.35s.</li>
-                        </ul>
-                    </li>
-                </ul>
-
-                <h3>3.2. Métodos Empíricos / De Observação (Com Usuários)</h3>
-                <ul class="custom-list">
-                    <li><strong>Observação de Campo e Etnografia:</strong> Pesquisador imerge no ambiente real do
-                        usuário ("going native"). Tem como preceito documentar a rotina real e evitar julgar/intervir.
-                    </li>
-                    <li><strong>Ensaios de Interação (Testes de Usabilidade):</strong> Usuários reais realizam tarefas
-                        em laboratório.
-                        <ul>
-                            <li><strong>Thinking Aloud (Pensar Alto):</strong> Usuário verbaliza seus pensamentos e
-                                dificuldades enquanto usa o sistema.
-                                <p style="margin-top: 8px; margin-bottom: 4px;"><em>Prós:</em> Excelente para captar
-                                    frustrações e o modelo mental do usuário.</p>
-                                <p style="margin-bottom: 8px;"><em>Contras:</em> Não é natural; infla o tempo de
-                                    execução (evitar usar se o objetivo do teste for medir tempo/eficiência pura).</p>
-                                <p><em>Três passos do Thinking Aloud:</em> 1. Recrutar usuários representativos; 2. Dar
-                                    tarefas representativas; 3. Manter-se quieto e apenas registrar o comportamento do
-                                    usuário.</p>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-
-                <h3>Questionários Padronizados pós-teste/pós-tarefa</h3>
-                <ul class="custom-list">
-                    <li><strong>SUS (System Usability Scale):</strong> 10 questões rápidas. Pontuação de 0 a 100.
-                        <div class="highlight-box" style="margin: 10px 0; padding: 12px 16px;">
-                            <strong>Como calcular o Score SUS:</strong>
-                            <ul style="margin-top: 6px; padding-left: 20px; margin-bottom: 0;">
-                                <li>Para questões ímpares (positivas): subtrair 1 da resposta (ex: se respondeu 4, vale
-                                    3).</li>
-                                <li>Para questões pares (negativas): subtrair a resposta de 5 (ex: se respondeu 2, vale
-                                    3).</li>
-                                <li>Somar os resultados de todas as 10 questões e multiplicar por <strong>2.5</strong>.
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li><strong>NASA-TLX (Task Load Index):</strong> Avalia <strong>Carga de Trabalho
-                            (Workload)</strong> mental. 6 dimensões: <em>Demanda Mental, Demanda Física, Demanda
-                            Temporal, Esforço, Desempenho e Frustração</em>.</li>
-                    <li><strong>TAM (Technology Acceptance Model):</strong> Avalia aceitação de novas tecnologias.
-                        Fatores: <em>Utilidade Percebida</em> e <em>Facilidade de Uso Percebida</em>.</li>
-                    <li><strong>Diferenciais Semânticos (adjetivos bipolares):</strong> Tipo de pergunta onde o usuário
-                        escolhe um ponto em uma escala entre dois adjetivos opostos (ex: Complicado 1 2 3 4 5 Fácil,
-                        Rápido vs Lento).</li>
-                    <li><em>Outros:</em> <strong>QUIS</strong> (satisfação com interface), <strong>SUMI</strong> (50
-                        perguntas em escala de 3 níveis), <strong>PSSUQ</strong> (16 itens cobrindo Utilidade, Qualidade
-                        de Informação e Qualidade de Interface).</li>
-                </ul>
-
-                <h3>Web Analytics e Heatmaps</h3>
-                <ul class="custom-list">
-                    <li><strong>Logs do Servidor vs. Page Tagging:</strong>
-                        <ul>
-                            <li><strong>Arquivos de Log:</strong> O servidor registra acessos e erros de páginas
-                                automaticamente. <em>Vantagem:</em> Não requer JS habilitado, conta acessos diretos.
-                                <em>Desvantagem:</em> Páginas em cache não contam, dados não disponíveis em tempo real.
-                            </li>
-                            <li><strong>Page Tagging (ex: Google Analytics):</strong> Script de rastreamento JS inserido
-                                nas páginas. <em>Vantagem:</em> Rastreia eventos complexos (cliques, rolagem), dados em
-                                tempo real. <em>Desvantagem:</em> Requer Javascript habilitado no navegador do usuário.
-                            </li>
-                        </ul>
-                    </li>
-                    <li><strong>Métricas vs. Dimensões:</strong>
-                        <ul>
-                            <li><em>Dimensão:</em> Atributo qualitativo para categorizar dados (ex: Cidade, Dispositivo,
-                                Nome do Evento).</li>
-                            <li><em>Métrica:</em> Atributo quantitativo mensurável (ex: Contagem de eventos, tempo de
-                                sessão, visualizações).</li>
-                        </ul>
-                    </li>
-                    <li><strong>Limitação do Analytics:</strong> Analytics mostra <em>o que</em> ocorre (comportamento
-                        quantitativo, ex: 70% desistem no carrinho), mas não explica <em>por que</em> (necessita de
-                        triangulação com testes de usabilidade qualitativos).</li>
-                </ul>
-
-                <h3>Estatísticas e Planejamento de Experimentos Formais</h3>
-                <ul class="custom-list">
-                    <li><strong>Variável Independente (VI):</strong> Fatores manipulados no teste (ex: a técnica de
-                        interação - Voz vs Touch).</li>
-                    <li><strong>Variável Dependente (VD):</strong> As métricas de desempenho medidas (ex: tempo em
-                        segundos, número de erros).</li>
-                    <li><strong>Desenho Experimental:</strong>
-                        <ul>
-                            <li><em>Between-subjects (Grupos Independentes):</em> Grupos diferentes testam cada
-                                condição. Evita efeito de aprendizado.</li>
-                            <li><em>Within-subjects (Medidas Repetidas / Pareado):</em> Mesmos participantes testam
-                                todas as condições. Exige alternar a ordem (ALFA / BETA) para anular o aprendizado.</li>
-                        </ul>
-                    </li>
-                    <li><strong>Significância Estatística (p-valor):</strong> p &lt; 0.05 rejeita a hipótese nula (H0:
-                        "as técnicas são iguais"). Tamanho do efeito medido por <em>Cohen's dz</em> (0.2 pequeno, 0.5
-                        médio, 0.8 grande).</li>
-                </ul>
-
-                <h3>Fluxo de Decisão para Escolha de Testes Estatísticos</h3>
-                <p>Tabela de referência rápida para escolha de testes estatísticos com base no tipo de desenho
-                    experimental e normalidade de dados:</p>
-
-                <table class="decision-table">
-                    <thead>
-                        <tr>
-                            <th>Desenho / Condições</th>
-                            <th>Paramétrico (Dados Normais)</th>
-                            <th>Não-Paramétrico (Violado)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Within-subjects</strong> (2 condições)</td>
-                            <td>Teste t pareado</td>
-                            <td>Wilcoxon Signed-Rank</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Between-subjects</strong> (2 condições)</td>
-                            <td>Teste t independente</td>
-                            <td>Mann-Whitney U</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Within-subjects</strong> (&gt;= 3 condições)</td>
-                            <td>ANOVA de medidas repetidas</td>
-                            <td>Teste de Friedman</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Between-subjects</strong> (&gt;= 3 condições)</td>
-                            <td>ANOVA One-Way</td>
-                            <td>Kruskal-Wallis</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-
-            <!-- SEÇÃO 4 -->
-            <section id="mobile" class="card search-target">
-                <h2>4. O Mundo Mobile (Mobile vs Desktop)</h2>
-                <p>Premissas e diferenças de interfaces interativas para dispositivos móveis:</p>
-                <ul class="custom-list">
-                    <li><strong>Atenção fragmentada/dividida:</strong> Sessões de uso são curtas (segundos ou minutos),
-                        com constantes interrupções e distrações ambientais.</li>
-                    <li><strong>Contexto de uso variável:</strong> Diferente do desktop (estável e interno), o mobile é
-                        usado na rua, sob sol forte (exige alto contraste visual), em movimento ou barulho.</li>
-                    <li><strong>Recursos limitados:</strong> Telas pequenas exigem maior prioridade de conteúdo; o
-                        hardware móvel consome bateria e rede celular que devem ser poupados.</li>
-                    <li><strong>Precisão do toque:</strong> O toque do dedo (<em>touch</em>) é menos preciso do que o
-                        ponteiro do mouse, exigindo botões maiores e espaçamento adequado.</li>
-                </ul>
-            </section>
-
-            <!-- SEÇÃO 5 -->
-            <section id="xr" class="card search-target">
-                <h2>5. Interação 3D, Realidade Virtual (VR) e XR</h2>
-                <p>Aplicações em Realidade Virtual (VR), Realidade Aumentada (AR) e Realidade Misturada (MR) fogem da
-                    metáfora WIMP tradicional de computadores desktop.</p>
-
-                <h3>Continuum de Realidade-Virtualidade de Milgram (1994)</h3>
-                <p>Representa a transição contínua do mundo puramente real para o mundo puramente virtual:</p>
-                <ul class="custom-list">
-                    <li><em>Ambiente Real:</em> Apenas objetos físicos.</li>
-                    <li><em>Realidade Aumentada (AR):</em> Mundo real com sobreposição de elementos virtuais (ex:
-                        Pokémon GO).</li>
-                    <li><em>Virtualidade Aumentada (AV):</em> Mundo virtual que incorpora elements físicos do mundo real
-                        (ex: ver suas próprias mãos reais rastreadas no jogo 3D).</li>
-                    <li><em>Realidade Virtual (VR):</em> Ambiente 100% gerado por computador (sintético), isolando o
-                        mundo real.</li>
-                    <li><em>xR (Extended Reality):</em> Termo guarda-chuva para todas as modalidades (VR, AR, MR).</li>
-                    <li><strong>Imersão (Física/Objetiva):</strong> Capacidade tecnológica do hardware de engajar os
-                        sentidos (visão 360º, áudio espacial, luvas hápticas).</li>
-                    <li><strong>Presença (Mental/Subjetiva):</strong> O estado psicológico de se sentir inserido no
-                        ambiente virtual ("suspensão de descrença").</li>
-                </ul>
-
-                <h3>O que torna a Interação 3D difícil?</h3>
-                <p>Ausência de restrições físicas nas ações, carência de padrões de design definidos, ferramentas de
-                    desenvolvimento limitadas, baixa precisão do rastreamento espacial e alta fadiga do usuário (ex:
-                    cansaço nos braços ao interagir no ar - "gorilla arm effect").</p>
-
-                <h3>As Quatro Tarefas Universais de Interação 3D</h3>
-
-                <div class="task-3d-box">
-                    <h4>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
-                        </svg>
-                        1. Seleção (Apontamento)
-                    </h4>
-                    <ul style="padding-left: 16px;">
-                        <li><strong>Mão Virtual Simples:</strong> Mapeamento 1:1. Seleciona o objeto tocando-o
-                            fisicamente com a mão virtual. Intuitivo, mas limitado ao comprimento do braço do usuário.
-                        </li>
-                        <li><strong>Técnica Ray-casting (Laser pointer):</strong> Um raio virtual sai da mão do usuário.
-                            O primeiro objeto intersectado pelo raio é selecionado. Excelente para seleção remota (longa
-                            distância), mas sofre com tremores da mão.</li>
-                        <li><strong>Aperture / Flashlight:</strong> Um cone de seleção projeta-se da mão ou olho.
-                            Facilita pegar alvos pequenos de longe, mas gera ambiguidade se houver vários objetos dentro
-                            do cone.</li>
-                        <li><strong>Gaze-directed (Olhar):</strong> A seleção ocorre apontando com a direção do olhar da
-                            cabeça ou rastreamento de olhos.</li>
-                    </ul>
-                </div>
-
-                <div class="task-3d-box">
-                    <h4>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path
-                                d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
-                            </path>
-                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                            <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                        </svg>
-                        2. Manipulação (Posicionamento, Orientação e Escala)
-                    </h4>
-                    <ul style="padding-left: 16px;">
-                        <li><strong>Go-Go:</strong> Técnica não-isomórfica do "braço elástico". Quando a mão física se
-                            move perto do corpo, a mão virtual acompanha em escala 1:1 (zona linear). Conforme o usuário
-                            estica a mão além de um limite D, a mão virtual estica exponencialmente (não-linear),
-                            permitindo alcançar objetos distantes.</li>
-                        <li><strong>HOMER (Hand-Centered Object Manipulation Extending Ray-Casting):</strong>
-                            <ul>
-                                <li><em>Seleção:</em> Feita com técnica de ray-casting.</li>
-                                <li><em>Manipulação:</em> Após selecionar, a mão virtual "voa" instantaneamente até o
-                                    objeto distante, permitindo manipulá-lo diretamente de perto (escala 1:1 local) com
-                                    translação e rotação natural.</li>
-                            </ul>
-                        </li>
-                        <li><strong>Voodoo Dolls:</strong> Manipulação de clones em miniatura. O usuário segura um
-                            "boneco" em miniatura do objeto no campo próximo (usando as duas mãos, uma como referencial
-                            e outra manipulando), e o objeto real distante reage em tempo real.</li>
-                        <li><strong>WIM (World In Miniature):</strong> O usuário segura na palma da mão uma maquete 3D
-                            (casa de bonecas) do mundo virtual e manipula as miniaturas para alterar o mundo real.</li>
-                        <li><strong>Técnica Bimanual Assimétrica (Spindle + Wheel):</strong> Utilização de dois
-                            controles 6-DOF nas mãos. Um controle atua como o pivô (dominante) e o outro define rotações
-                            ou escalas em relação ao primeiro, fornecendo até 7 graus de liberdade de forma coordenada.
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="task-3d-box">
-                    <h4>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <polygon points="3 11 22 2 13 21 11 13 3 11" />
-                        </svg>
-                        3. Navegação
-                    </h4>
-                    <ul style="padding-left: 16px;">
-                        <li><strong>Travel (Componente Motor):</strong> Deslocamento físico ou virtual no espaço
-                            (Caminhar natural com tracking de grande escala, caminhar estático como <em>Wii Balance
-                                Board</em> ou <em>Virtuix Omni</em>, teletransporte usando apontador para saltar
-                            distâncias sem enjoo, joystick tradicional).</li>
-                        <li><strong>Path-finding (Componente Cognitivo):</strong> Encontrar e decidir caminhos usando
-                            mapas virtuais ou pistas visuais no cenário.</li>
-                        <li><strong>Redirected Walking:</strong> O sistema rotaciona sutilmente a câmera virtual sem o
-                            usuário perceber, fazendo com que ele faça curvas no mundo real para evitar bater nas
-                            paredes físicas do laboratório, enquanto acredita que está andando em linha reta em um mundo
-                            virtual infinito.</li>
-                    </ul>
-                </div>
-
-                <div class="task-3d-box">
-                    <h4>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <circle cx="12" cy="12" r="3"></circle>
-                            <path
-                                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z">
-                            </path>
-                        </svg>
-                        4. Controle de Sistema
-                    </h4>
-                    <p>Ações para alterar o estado da aplicação (ex: abrir menus, trocar de ferramenta). Feito via menus
-                        contextuais 3D suspensos no ar, menus presos ao pulso do avatar virtual (<em>hand attached</em>)
-                        ou comandos de voz.</p>
-                </div>
-            </section>
-
-            <!-- SEÇÃO 6 (Questões e Dicas) -->
-            <section id="questoes" class="card search-target">
-                <h2>Dicas de Prova - Respostas Discursivas</h2>
-
-                <div class="task-3d-box" style="background-color: var(--bg-card); border-color: var(--primary);">
-                    <h4 style="color: var(--primary);">Q1. Por que interfaces de Voz não são boas para todas as tarefas?
-                    </h4>
-                    <p><strong>Resposta:</strong> A fala é de natureza serial/temporal, lenta para transmitir listas
-                        complexas. Apresenta problemas de privacidade (todos ouvem o que você fala) e sofre com ruídos
-                        ambientais. Além disso, exige alta carga de memória de trabalho do usuário, que precisa lembrar
-                        dos comandos aceitos, violando a heurística de "reconhecimento em vez de lembrança". É
-                        recomendada apenas para tarefas curtas, mãos ocupadas ou atalhos rápidos.</p>
-                </div>
-
-                <div class="task-3d-box" style="background-color: var(--bg-card); border-color: var(--accent);">
-                    <h4 style="color: var(--accent);">Q2. Como planejar uma avaliação comparativa experimental entre
-                        duas opções de design?</h4>
-                    <p><strong>Resposta:</strong></p>
-                    <ul style="padding-left: 16px;">
-                        <li><strong>Definição das Variáveis:</strong> Variável Independente = a interface (Voz vs
-                            Touch). Variável Dependente = tempo de conclusão da tarefa e quantidade de erros.</li>
-                        <li><strong>Formulação das Hipóteses:</strong> Hipótese Nula (<code>H0</code>): O tempo de
-                            execução nas duas interfaces é estatisticamente igual. Hipótese Alternativa
-                            (<code>H1</code>): O tempo de execução na interface de Voz é menor do que na interface
-                            Touch.</li>
-                        <li><strong>Protocolo:</strong> Desenho <em>Within-subjects</em> (medidas repetidas). O mesmo
-                            grupo de usuários testa ambas as interfaces. Para evitar o viés de aprendizado, dividimos a
-                            amostra e alternamos a ordem (Metade testa Voz depois Touch, a outra metade testa Touch
-                            depois Voz).</li>
-                        <li><strong>Execução e Análise:</strong> Registramos os tempos e erros de forma objetiva via
-                            logs. Aplicamos o teste de normalidade de Shapiro-Wilk nas diferenças. Se os dados forem
-                            normais, aplicamos o <em>Teste t pareado</em>. Se a normalidade for violada, aplicamos o
-                            teste não-paramétrico de <em>Wilcoxon</em>. Se o p-valor for menor que 0.05, rejeitamos a
-                            hipótese nula e confirmamos a diferença das interfaces.</li>
-                    </ul>
-                </div>
-            </section>
-
-            <!-- SEÇÃO 7 (Gabaritos Completos de Provas) -->
-            <section id="gabarito" class="card search-target">
-                <h2>6. Gabarito Detalhado das Provas Anteriores</h2>
-                <p>Resolução completa e fundamentada dos arquivos de provas passadas do diretório (<code>Prova 1</code>,
-                    <code>Prova 2</code> e <code>Prova 3</code>).
-                </p>
-
-                <!-- Abas Interativas -->
-                <div class="tabs-container">
-                    <button class="tab-btn active" onclick="switchTab(event, 'gabarito-p1')">Prova 1 - Exemplo</button>
-                    <button class="tab-btn" onclick="switchTab(event, 'gabarito-p2')">Prova 2 - Exemplo</button>
-                    <button class="tab-btn" onclick="switchTab(event, 'gabarito-p3')">Prova 3 - Exemplo</button>
-                </div>
-
-                <!-- Painel Prova 1 -->
-                <div class="tab-panel active" id="gabarito-p1">
-                    <div class="gabarito-item">
-                        <div class="question-title">Q1. Teoria da Ação de Norman (Golfos, Estágios e Avaliação)</div>
-                        <div class="answer-box">
-                            <p><strong>Golfos:</strong> O <em>Golfo de Execução</em> mede a facilidade física de
-                                converter intenções em comandos da interface. O <em>Golfo de Avaliação</em> mede a
-                                facilidade de entender se o estado final do sistema atingiu o objetivo inicial.</p>
-                            <p><strong>Fases Mentais e Motoras:</strong> Norman descreve 7 estágios. A atividade
-                                cognitiva (mental) governa o estabelecimento do objetivo, intenção, planejamento das
-                                ações e na avaliação do feedback (Percepção, Interpretação, Avaliação). A atividade
-                                motora (física) ocorre especificamente na Execução física dos botões/comandos e na
-                                Percepção sensorial primária do feedback.</p>
-                            <p><strong>Importância dos Métodos:</strong> Os métodos de avaliação (como Percurso
-                                Cognitivo e Avaliação Heurística) inspecionam a interface procurando gargalos que
-                                alarguem esses golfos (ex: falta de visibilidade do status alarga o Golfo de Avaliação;
-                                falta de consistência alarga o Golfo de Execução).</p>
-                        </div>
-                    </div>
-
-                    <div class="gabarito-item">
-                        <div class="question-title">Q2. Metas de Usabilidade vs. UX</div>
-                        <div class="answer-box success-border">
-                            <ul>
-                                <li><strong>Usabilidade:</strong> a) fácil de lembrar como usar, d) seguro no uso, g)
-                                    eficiente no uso.</li>
-                                <li><strong>UX (Experiência do Usuário):</strong> b) agradável, c) divertido, e)
-                                    emocionalmente adequado, f) medida de experiência do usuário.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="gabarito-item">
-                        <div class="question-title">Q3. Etapas do Ciclo de Concepção Ergonômica</div>
-                        <div class="answer-box accent-border">
-                            <ul>
-                                <li>a) Quais tarefas serão suportadas? -> <strong>Análise Contextual</strong></li>
-                                <li>b) Como provocar as críticas/sugestões dos usuários? ->
-                                    <strong>Prototipação</strong>
-                                </li>
-                                <li>c) O sistema e sua interface suportam adequadamente as tarefas dos usuários? ->
-                                    <strong>Avaliação</strong>
-                                </li>
-                                <li>d) Qual o contexto de realização destas tarefas? -> <strong>Análise
-                                        Contextual</strong></li>
-                                <li>e) Como os componentes da interface serão apresentados aos usuários? ->
-                                    <strong>Projeto de Interface</strong>
-                                </li>
-                                <li>f) Quais comandos e ações o usuário pode realizar através da interface? ->
-                                    <strong>Projeto de Interface</strong>
-                                </li>
-                                <li>g) Quais são os usuários? -> <strong>Análise Contextual</strong></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="gabarito-item">
-                        <div class="question-title">Q4. Mobile vs. Desktop & Premissas Mobile</div>
-                        <div class="answer-box">
-                            <p><strong>Diferenças:</strong> Mobile possui telas menores, toques diretos por dedos
-                                (precisão menor exigindo áreas de toque de pelo menos 48x48px), ausência de cursor
-                                flutuante (hover) e limitação de bateria/processamento.</p>
-                            <p><strong>Premissas:</strong> 1. Atenção fragmentada do usuário; 2. Contexto de uso externo
-                                e muito variável (ex. sob o sol, em movimento); 3. Limitações severas de hardware e
-                                rede; 4. Integração nativa com sensores (GPS, giroscópio).</p>
-                        </div>
-                    </div>
-
-                    <div class="gabarito-item">
-                        <div class="question-title">Q5 a Q11. Questões Falso ou Verdadeiro</div>
-                        <div class="answer-box success-border">
-                            <ul>
-                                <li><strong>5) Verdadeira.</strong> Affordance diz respeito ao que a interface comunica
-                                    sobre si mesma ao usuário. </li>
-                                <li><strong>6) Falsa.</strong> A mão virtual clássica é <strong>isomórfica</strong>
-                                    (mapeamento 1:1, imita a física real). Técnicas <strong>não-isomórficas</strong>
-                                    (como
-                                    Go-Go) usam
-                                    a ideia de realidade ampliada.</li>
-                                <li><strong>7) Falsa.</strong> O sentimento de pertencer ao mundo virtual é a
-                                    <strong>Presença</strong>. A <strong>Imersão</strong> é uma medida física e
-                                    tecnológica do hardware.
-                                </li>
-                                <li><strong>8) Falsa.</strong> Essa tradução é feita na etapa de <strong>Projeto da
-                                        Interface</strong>
-                                    (Projeto do Diálogo), e não na Prototipação.</li>
-                                <li><strong>9) Verdadeira.</strong> A avaliação heurística baseia-se na inspeção de
-                                    especialistas usando heurísticas de usabilidade.</li>
-                                <li><strong>10) Falsa.</strong> Em desenhos Within-subjects, a ordem afeta seriamente o
-                                    resultado (fadiga/aprendizado) e precisa ser contrabalançada.</li>
-                                <li><strong>11) Verdadeira.</strong> A avaliação formativa ocorre durante o
-                                    desenvolvimento para refinar o design por meio de testes.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="gabarito-item">
-                        <div class="question-title">Q12. Caso Prático - Interfaces de Voz</div>
-                        <div class="answer-box accent-border">
-                            <p><strong>Aplicação ideal:</strong> Motoristas alterando rotas de GPS ou músicas na central
-                                multimídia de um carro em movimento.</p>
-                            <p><strong>Cenário inadequado:</strong> Solicitar consulta de extrato bancário ou senha do
-                                cartão por voz em um transporte público lotado (falta de privacidade e ruído excessivo).
-                            </p>
-                            <p><strong>Cenário adequado:</strong> Cozinhar receitas complexas com as mãos sujas e
-                                solicitar comandos por voz.</p>
-                            <p><strong>Hipóteses:</strong> <code>H0</code>: O número de desvios visuais da estrada
-                                usando comandos de voz é igual ao usar a tela touch. <code>H1</code>: O número de
-                                desvios visuais usando voz é menor.</p>
-                            <p><strong>Variáveis:</strong> VI = Interface (Voz vs. Touch); VD = Duração acumulada de
-                                desvios visuais (s) e quantidade de saídas de faixa.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Painel Prova 2 -->
-                <div class="tab-panel" id="gabarito-p2">
-                    <div class="gabarito-item">
-                        <div class="question-title">Q1. Exemplo do Norman: Remover Contato do Celular</div>
-                        <div class="answer-box">
-                            <ol>
-                                <li><strong>Objetivo:</strong> Limpar a agenda de contatos inativos/indesejados.</li>
-                                <li><strong>Intenção:</strong> Decidir abrir o gerenciador de contatos e remover o
-                                    contato do "Fulano".</li>
-                                <li><strong>Especificação da Ação:</strong> Mapear: "Vou tocar no ícone de contatos,
-                                    buscar 'Fulano', tocar no registro, clicar em 'Excluir' e confirmar".</li>
-                                <li><strong>Execução:</strong> Realizar fisicamente os toques de navegação e a
-                                    digitação.</li>
-                                <li><strong>Percepção:</strong> Observar a janela de confirmação de exclusão e a lista
-                                    atualizada sem o nome do Fulano.</li>
-                                <li><strong>Interpretação:</strong> Concluir que a ausência do nome de Fulano e a caixa
-                                    sumindo significam que a exclusão foi bem-sucedida.</li>
-                                <li><strong>Avaliação:</strong> Comparar com o objetivo inicial e ver que a lista agora
-                                    está limpa.</li>
-                            </ol>
-                        </div>
-                    </div>
-
-                    <div class="gabarito-item">
-                        <div class="question-title">Q2. Mobile vs. Desktop & Premissas</div>
-                        <div class="answer-box success-border">
-                            <p>Mesmas premissas e diferenças explicadas na Prova 1 (telas menores, toques imprecisos,
-                                atenção dispersa, sensores nativos e limitações de hardware/bateria).</p>
-                        </div>
-                    </div>
-
-                    <div class="gabarito-item">
-                        <div class="question-title">Q3. Princípios de Usabilidade e Design</div>
-                        <div class="answer-box accent-border">
-                            <ul>
-                                <li>a) Informações, controles e comandos facilitam a próxima ação ->
-                                    <strong>Visibilidade</strong>
-                                </li>
-                                <li>b) Controles e comandos são interpretados e aprendidos com facilidade ->
-                                    <strong>Mapeamento</strong>
-                                </li>
-                                <li>c) Podem ser físicas, lógicas ou culturais -> <strong>Restrições</strong></li>
-                                <li>d) Controles têm a informação intrínseca de como ser acionados ->
-                                    <strong>Affordance</strong>
-                                </li>
-                                <li>e) Notificações, sinais do andamento ou resultado -> <strong>Feedback</strong></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="gabarito-item">
-                        <div class="question-title">Q4. Conceitos do Modelo Conceitual</div>
-                        <div class="answer-box">
-                            <ul>
-                                <li>a) Simplificação de um fenômeno -> <strong>Modelo</strong></li>
-                                <li>b) Abordagem geral de pesquisa por uma comunidade -> <strong>Paradigma</strong></li>
-                                <li>c) Explora conhecimento familiar ao usuário -> <strong>Metáfora</strong></li>
-                                <li>d) Conjunto de conceitos interrelacionados -> <strong>Framework</strong></li>
-                                <li>e) Explicação de um fenômeno -> <strong>Teoria</strong></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="gabarito-item">
-                        <div class="question-title">Q5. Afirmações sobre Interação 3D</div>
-                        <div class="answer-box success-border">
-                            <p><strong>Opção Correta: a) I e II estão corretas.</strong></p>
-                            <p><em>Justificativa:</em> A afirmação III está errada pois a técnica Go-Go é baseada na
-                                metáfora da *Mão Virtual* (braço elástico) e não em apontamento (ray-casting).</p>
-                        </div>
-                    </div>
-
-                    <div class="gabarito-item">
-                        <div class="question-title">Q6. Percepção em IHC</div>
-                        <div class="answer-box accent-border">
-                            <p><strong>Opções Corretas: a e d.</strong></p>
-                            <p><em>Justificativa:</em> A memória humana é essencialmente visual (opção a). A opção b
-                                está errada (conjunction search anula a pré-atenção). A opção c está errada (reconhecer
-                                é sempre mais fácil do que lembrar). A opção e está errada (movimento é um forte
-                                estímulo de pré-atenção).</p>
-                        </div>
-                    </div>
-
-                    <div class="gabarito-item">
-                        <div class="question-title">Q7. Thinking Aloud e Dados Quantitativos</div>
-                        <div class="answer-box">
-                            <p><strong>Falso.</strong> O Thinking Aloud foca em dados qualitativos. Medir tempos em
-                                tarefas verbalizadas é desaconselhado porque a fala atrasa e infla artificialmente o
-                                tempo de performance.</p>
-                        </div>
-                    </div>
-
-                    <div class="gabarito-item">
-                        <div class="question-title">Q8. Experimentos Formais e Detecção de Erros</div>
-                        <div class="answer-box success-border">
-                            <p><strong>Falso.</strong> 5 usuários em testes empíricos detectam cerca de 85% dos
-                                problemas de usabilidade, e não 95%.</p>
-                        </div>
-                    </div>
-
-                    <div class="gabarito-item">
-                        <div class="question-title">Q9. Caso Prático - Gestos 3D em Dispositivos Móveis</div>
-                        <div class="answer-box accent-border">
-                            <p><strong>Aplicação:</strong> Navegação cirúrgica por médicos. Permite dar zoom ou
-                                rotacionar modelos 3D de órgãos na tela de tablets de forma asséptica e sem contato
-                                físico direto.</p>
-                            <p><strong>Hipótese:</strong> <code>H0</code>: O tempo médio de navegação e alteração de
-                                zoom usando gestos 3D é igual ao tempo usando comandos de voz. <code>H1</code>: O tempo
-                                usando gestos 3D é menor.</p>
-                            <p><strong>Protocolo:</strong> Desenho *Within-subjects* balanceado (30 participantes). A VI
-                                é a interface (Gestos 3D vs. Voz). A VD é o tempo total da tarefa e a taxa de erros de
-                                reconhecimento de comando.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Painel Prova 3 -->
-                <div class="tab-panel" id="gabarito-p3">
-                    <div class="gabarito-item">
-                        <div class="question-title">Q2. Usabilidade vs. Experiência do Usuário (UX)</div>
-                        <div class="answer-box">
-                            <p><strong>Usabilidade:</strong> Foco pragmático na tarefa. Exemplos: Eficácia, Eficiência,
-                                Segurança no uso.</p>
-                            <p><strong>UX (Experiência do Usuário):</strong> Foco subjetivo e emocional na interação.
-                                Exemplos: Ser divertido, agradável, esteticamente apreciável.</p>
-                        </div>
-                    </div>
-
-                    <div class="gabarito-item">
-                        <div class="question-title">Q3. Técnicas de Design Voltadas para Atenção</div>
-                        <div class="answer-box success-border">
-                            <ul>
-                                <li>Isolar e destacar botões primários com cores distintas (recurso de pré-atenção).
-                                </li>
-                                <li>Agrupar espacialmente elementos relacionados próximos uns dos outros (Gestalt).</li>
-                                <li>Ocultar menus e opções avançadas até serem solicitadas (restrição lógica).</li>
-                                <li>Garantir o uso consistente de locais de elementos comuns para o usuário criar
-                                    hábitos automatizados.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="gabarito-item">
-                        <div class="question-title">Q4. Ciclo de Concepção Ergonômica</div>
-                        <div class="answer-box accent-border">
-                            <ul>
-                                <li>a) Como provocar as críticas/sugestões dos usuários? -> <strong>Prototipação de
-                                        interfaces</strong></li>
-                                <li>b) Como os componentes da interface serão apresentados? -> <strong>Projeto de
-                                        interfaces</strong></li>
-                                <li>c) Quais comandos e ações o usuário pode realizar? -> <strong>Projeto de
-                                        interfaces</strong></li>
-                                <li>d) Quais tarefas serão suportadas? -> <strong>Análise contextual</strong></li>
-                                <li>e) Quais são os usuários? -> <strong>Análise contextual</strong></li>
-                                <li>f) O sistema e a interface suportam adequadamente as tarefas? -> <strong>Avaliação
-                                        de interfaces</strong></li>
-                                <li>g) Qual o contexto de realização destas tarefas? -> <strong>Análise
-                                        contextual</strong></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="gabarito-item">
-                        <div class="question-title">Q5. Ações do Projetista na Fase de Projeto de Interface</div>
-                        <div class="answer-box">
-                            <p>As ações principais incluem:</p>
-                            <ol style="margin-left: 12px;">
-                                <li><strong>Projeto Conceitual:</strong> Criar metáforas da interface baseadas em
-                                    referências conhecidas.</li>
-                                <li><strong>Projeto de Apresentação:</strong> Estruturar espacialmente as telas,
-                                    agrupando widgets nos layouts apropriados.</li>
-                                <li><strong>Projeto de Diálogo:</strong> Sequenciar e mapear a navegação dinâmica de
-                                    telas com base nos eventos e ações do usuário.</li>
-                                <li>Essas decisões baseiam-se em princípios de IHC (feedback, visibilidade, affordance,
-                                    consistência) e nos Perfis de Usuário definidos anteriormente.</li>
-                            </ol>
-                        </div>
-                    </div>
-
-                    <div class="gabarito-item">
-                        <div class="question-title">Q6. Afirmações sobre Interação 3D</div>
-                        <div class="answer-box success-border">
-                            <p><strong>Opção Correta: c) I e III estão corretas.</strong></p>
-                            <p><em>Justificativa:</em> A afirmação II é falsa porque a mão virtual clássica (escala 1:1)
-                                é apropriada apenas para objetos *próximos* e ao alcance do braço físico.</p>
-                        </div>
-                    </div>
-
-                    <div class="gabarito-item">
-                        <div class="question-title">Q7. Afirmação que NÃO se aplica a Dispositivos Móveis</div>
-                        <div class="answer-box accent-border">
-                            <p><strong>Opção Correta: b.</strong></p>
-                            <p><em>Justificativa:</em> Componentes móveis exigem alvos de toque maiores, layouts
-                                flexíveis e design simplificado devido à ergonomia de toque e tamanho de tela, não
-                                devendo imitar idêntico as versões desktop.</p>
-                        </div>
-                    </div>
-
-                    <div class="gabarito-item">
-                        <div class="question-title">Q8 a Q12. Questões de Falso ou Verdadeiro</div>
-                        <div class="answer-box">
-                            <ul>
-                                <li><strong>8) Falso.</strong> É de responsabilidade da Comunicabilidade. Affordance
-                                    refere-se a pistas visuais intrínsecas dos elementos.</li>
-                                <li><strong>9) Falso.</strong> Isso é feito no *Projeto da Interface* (Projeto do
-                                    Diálogo).</li>
-                                <li><strong>10) Verdadeiro.</strong> Presença é o sentimento subjetivo de fazer parte e
-                                    interagir com o ambiente digital.</li>
-                                <li><strong>11) Verdadeiro.</strong> A avaliação heurística baseia-se na inspeção de
-                                    especialistas.</li>
-                                <li><strong>12) Verdadeiro.</strong> A formativa foca em refinar os elementos gráficos e
-                                    de diálogo durante o design.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="gabarito-item">
-                        <div class="question-title">Q13. Caso Prático - Spotify vs. Netflix Horizontal Scroll</div>
-                        <div class="answer-box success-border">
-                            <p><strong>Hipóteses:</strong></p>
-                            <ul style="padding-left: 12px; margin-bottom: 8px;">
-                                <li><code>Hipótese 1:</code> H0: A taxa de cliques em itens inicialmente ocultos na
-                                    rolagem implícita (corte lateral) é igual à da rolagem explícita. H1: A taxa de
-                                    cliques é maior na rolagem implícita.</li>
-                                <li><code>Hipótese 2:</code> H0: O tempo de descoberta de novos itens é igual nas duas
-                                    interfaces. H1: O tempo é menor na rolagem implícita.</li>
-                            </ul>
-                            <p><strong>Protocolo Experimental:</strong></p>
-                            <ul style="padding-left: 12px;">
-                                <li><strong>Participantes:</strong> 30 usuários comuns de serviços de streaming.</li>
-                                <li><strong>Desenho:</strong> Within-subjects (medidas repetidas) com contrabalanço de
-                                    ordem (Grupo 1: Interface Netflix -> Interface Spotify; Grupo 2: Interface Spotify
-                                    -> Interface Netflix) para afastar efeito de aprendizado.</li>
-                                <li><strong>VI:</strong> Indicação de rolagem horizontal (Interface Netflix - corte
-                                    lateral de cards vs. Interface Spotify - barra de rolagem clássica).</li>
-                                <li><strong>VDs:</strong> Tempo acumulado (s) até interagir com o conteúdo oculto e
-                                    número total de cliques em itens ocultos.</li>
-                                <li><strong>Análise:</strong> Teste Shapiro-Wilk para avaliar normalidade. Havendo
-                                    normalidade, aplicar *Teste t pareado* para comparação de médias. Em caso de
-                                    violação de normalidade, aplicar o teste não-paramétrico de *Wilcoxon*. p < 0.05
-                                        rejeita a hipótese nula (H0).</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </div>
-
-    <script>
-        // Toggle Temas
-        function toggleTheme() {
-            const html = document.documentElement;
-            const themeIcon = document.getElementById('themeIcon');
-            const themeText = document.getElementById('themeText');
-
-            if (html.getAttribute('data-theme') === 'light') {
-                html.setAttribute('data-theme', 'dark');
-                themeText.textContent = 'Modo Claro';
-                themeIcon.innerHTML = `
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                `;
-            } else {
-                html.setAttribute('data-theme', 'light');
-                themeText.textContent = 'Modo Escuro';
-                themeIcon.innerHTML = `
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                `;
-            }
-        }
-
-        // Filtro de Busca Dinâmico
-        function filterContent() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const targets = document.querySelectorAll('.search-target');
-
-            targets.forEach(target => {
-                const text = target.textContent.toLowerCase();
-                if (text.includes(query)) {
-                    target.style.display = 'block';
-                } else {
-                    target.style.display = 'none';
-                }
-            });
-        }
-
-        // Toggle Sidebar Mobile
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('show');
-        }
-
-        // Troca de Abas de Gabarito
-        function switchTab(event, tabId) {
-            // Remove a classe active de todos os botões de abas
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-
-            // Remove a classe active de todos os painéis
-            const panels = document.querySelectorAll('.tab-panel');
-            panels.forEach(panel => panel.classList.remove('active'));
-
-            // Ativa o botão e o painel correspondente
-            event.currentTarget.classList.add('active');
-            document.getElementById(tabId).classList.add('active');
-        }
-
-        // Destacar link ativo no scroll
-        window.addEventListener('scroll', () => {
-            const scrollPos = window.scrollY + 100;
-            const sections = document.querySelectorAll('section');
-            const navLinks = document.querySelectorAll('.nav-item');
-
-            sections.forEach((section, idx) => {
-                if (scrollPos >= section.offsetTop && scrollPos < (section.offsetTop + section.offsetHeight)) {
-                    navLinks.forEach(link => link.classList.remove('active'));
-                    navLinks[idx].classList.add('active');
-                }
-            });
-        });
-    </script>
+            <ul>
+                <li><strong>Ótimo (OPT / MIN):</strong> Previsão perfeita do futuro. É métrica teórica pra validar algoritmos.</li>
+                <li><strong>FIFO:</strong> Simples (fila). Mas sofre com a <strong>Anomalia de Bélády</strong>.</li>
+                <li><strong>LRU Puro (Least Recently Used):</strong> Sendo um algoritmo de pilha, <strong>não</strong> sofre de Bélády. Porém, exigiria no Hardware: (a) Registradores gravando Timestamp na Tabela em cada instrução ou (b) Listas duplamente encadeadas modificando 6 ponteiros a cada clock. Impossível na prática pura!</li>
+                <li><strong>Contadores (LFU e MFU):</strong> Menos/Mais frequentemente usadas. Exigem incremento a cada uso. O LFU é péssimo pois uma página muito usada no início fica pesada e nunca sai, mesmo virando inútil depois.</li>
+            </ul>
+
+            <h3>Algoritmos de Aproximação (Uso Real via Bit de Referência R)</h3>
+            <p>Os hardwares salvam o <strong>Bit R (Referenciado)</strong>. O SO zera ele a cada interrupção de relógio. Baseado nisso, surgiram as aproximações:</p>
+            <ul>
+                <li><strong>Envelhecimento (Aging) - A Super Aproximação:</strong> O SO aloca um byte (8 bits) em software para cada página. No clock, dá um <em>shift right</em> e insere o Bit R no bit mais significativo. <code>11111111</code> = Quente demais. <code>00000000</code> = Totalmente morta. O SO apenas tira a de menor valor inteiro. É a melhor aproximação do LRU via software.</li>
+                <li><strong>Segunda Chance (Clock):</strong> Simula o LRU. Usa FIFO mais Bit R. Ponteiro chega na vítima: se R=1, SO "limpa" para 0, e a vítima ganha segunda chance voltando ao fim da fila. R=0, Vítima morre. O <em>Relógio</em> é a implementação num array circular (muito eficiente).</li>
+                <li><strong>NRU (Not Recently Used):</strong> Cataloga Bit R e M. Procura de 0 a 3. <br>
+                    - Classe 0 <code>(R=0, M=0)</code>: Sem uso recente e limpa (melhor candidata).<br>
+                    - Classe 1 <code>(R=0, M=1)</code>: Sem uso e suja (I/O). <br>
+                    - Classe 2 <code>(1,0)</code>: Usada há pouco e limpa. <br>
+                    - Classe 3 <code>(1,1)</code>: Fervendo e Suja. Vítima intocável.
+                </li>
+            </ul>
+
+            <h3>O Conjunto de Trabalho (Working Set)</h3>
+            <p>Páginas que o processo usa ativamente num período `k` (Localidade). <strong>Pré-paginação</strong> tenta carregar todo esse bloco de uma vez antes do processo executar para evitar Page Faults de aquecimento.</p>
+            <ul>
+                <li><strong>WSClock (Working Set Clock):</strong> O eleito state-of-the-art por Tanenbaum. Une o Relógio com a janela Crítica (\(\tau\)). O SO calcula a "idade" da página (Tempo Atual - Tempo de Último uso). Se <code>Idade > \(\tau\)</code> (fora do conjunto de trabalho) e estiver limpa, ela voa instantaneamente. Muito superior por não exigir varrer a tabela inteira a cada Page Fault.</li>
+            </ul>
+        </section>
+
+        <section id="thrashing">
+            <h2>5. Thrashing e Alocação de Quadros</h2>
+            <p><strong>Regra do Mínimo Absoluto:</strong> É ditada pela arquitetura. Se uma instrução do IBM Assembly exige 6 operandos em páginas distintas na RAM, o processo TEM que ganhar no mínimo 6 quadros do SO, senão ele vai travar num Page Fault infinito que aborta a própria instrução repetidamente.</p>
+            <p>Como distribuir quadros disponíveis? Igualitário (um app simples ganha o mesmo que o Photoshop, péssimo), Proporcional (equilibrado pelo tamanho matemático), ou Prioritário. O escopo pode ser <strong>Local</strong> (app só rouba quadros de si mesmo para controlar sua própria falha) ou <strong>Global</strong> (rouba quadros do sistema inteiro, Linux usa esse, dá melhor throughput mas o app não controla sua taxa).</p>
+
+            <div class="callout warning">
+                <div class="callout-title">⚠️ Thrashing (O Colapso Sistêmico da Ultrapaginação)</div>
+                <p>É o terror dos servidores: <strong>Atividade Improdutiva de I/O contínua</strong>. <br>
+                Acontece com a multiprogramação excedente (a soma de todos os Working Sets exigem mais quadros do que a RAM real possui). App A quer processar, sofre page-fault e rouba um bloco de B. O SO faz context switch pra B. B quer agir, sofre fault por ter perdido bloco pra A, toma swap out, e bloqueia. <br>
+                <strong>O sintoma e a cascata clássica:</strong> Uso de CPU desaba pra perto de 5% porque o sistema todo dorme no estado Blocked esperando o HD. O escalonador de curto prazo, desesperado com a CPU ociosa, <strong>injeta mais processos na memória</strong> (aumenta o grau de multiprogramação). O caos vira absoluto e o sistema infarta.</p>
+                <p><strong>Soluções:</strong><br>
+                1. <strong>Page-Fault Frequency (PFF):</strong> O SO fixa um teto e um piso. Se a taxa de page fault do processo subir muito, dá mais quadros pra ele. Se cair demais, tira o excesso.<br>
+                2. <strong>Controle de Carga (Último Recurso):</strong> Acordar o Escalonador de Médio Prazo (Swapper). Suspende totalmente um ou mais processos, jogando o cara inteiro pro Swap e distribuindo a carcaça de seus quadros para os processos sobreviventes.</p>
+            </div>
+        </section>
+
+        <section id="discos-escalonamento">
+            <h2>6. Discos Magnéticos, SSD, RAID e Escalonamento</h2>
+            
+            <h3>A Física e a Geometria do HD</h3>
+            <p>O disco é feito de <strong>Pratos</strong> magnéticos. A superfície do prato possui várias <strong>Trilhas</strong> concêntricas. As trilhas são "fatiadas" como pizza em <strong>Setores</strong> (geralmente 512 bytes). Se você pegar a mesma trilha em todos os pratos empilhados verticalmente, você tem um <strong>Cilindro</strong> (que é onde o braço de leitura se posiciona de uma vez só).</p>
+            
+            <h3>Formatação Física (Baixo Nível) vs Lógica</h3>
+            <ul>
+                <li><strong>Baixo Nível:</strong> A fábrica "cria" as trilhas e os setores, injetando o Cabeçalho, os Dados e o Trailer (com código <strong>ECC</strong> de Correção de Erros para blindar falhas magnéticas).</li>
+                <li><strong>Formatação Lógica:</strong> O SO cria as Partições (MBR ou GPT) e agrupa os Setores minúsculos em <strong>Clusters</strong> (Blocos grandes) para o Sistema de Arquivos funcionar melhor.</li>
+            </ul>
+
+            <h3>A Matemática da Latência</h3>
+            <p>O Tempo Total de Acesso = <strong>Tempo de Busca (Seek - braço mecânico) + Latência Rotacional (esperar o disco girar) + Transferência (leitura magnética real)</strong>. O <em>Tempo de Busca</em> (3 a 15ms) domina quase todo o atraso de I/O do computador inteiro.</p>
+
+            <h3>Algoritmos de Escalonamento do Braço (Seek)</h3>
+            <ul>
+                <li><strong>SSTF:</strong> Atende o cilindro mais próximo da cabeça atual. <strong>Pode causar inanição (starvation) extrema nas bordas do disco se houver chuva de pedidos na área central.</strong></li>
+                <li><strong>SCAN (Elevador):</strong> Vai e Volta até as pontas do disco, mas penaliza os setores das bordas recém-passadas, que vão amargar 2 ciclos completos de viagem.</li>
+                <li><strong>C-SCAN:</strong> Varredura circular justa. Só lê num sentido (do início ao fim). Quando acaba, engata marcha-ré vazia em alta velocidade pro começo e recomeça.</li>
+                <li><strong>LOOK / C-LOOK:</strong> São as implementações que existem na vida real! O braço não vai cegamente até a borda (ex: cilindro 9999). Ele viaja até o <em>último pedido pendente</em> daquele momento e já inverte a direção ali mesmo.</li>
+            </ul>
+
+            <h3>O Estado Sólido (SSD)</h3>
+            <p>Não possui braço, nem motor, anulando matematicamente o maldito <em>Seek Time</em>. Escalonamento FCFS puro faz o trabalho mesclando pedidos. Como demérito, além do preço, as memórias Flash SLC/MLC morrem após um número X de ciclos de gravação (Write Endurance).</p>
+
+            <h3>RAID (Redundant Array of Independent Disks)</h3>
+            <p>Empilhamento de discos baratos para formar super-discos de altíssimo desempenho ou tolerância a falhas mortais de hardware:</p>
+            <ul>
+                <li><strong>RAID 0 (Distribuição / Striping):</strong> Metade de um arquivo vai pro Disco A e metade pro Disco B, duplicando a velocidade. <strong>Ponto fraco: Zero redundância. Se A morrer, o sistema inteiro morre irreversivelmente.</strong></li>
+                <li><strong>RAID 1 (Espelhamento):</strong> Tudo que cai no A é automaticamente clonado no B. Altíssima segurança. Ponto fraco: Desperdiça 50% do espaço comprado.</li>
+                <li><strong>RAID 5 (Paridade Distribuída):</strong> Precisa de pelo menos 3 discos. A equação matemática de paridade é gravada espalhada em todos. Se o Disco B pegar fogo, você espeta um virgem no lugar e o RAID recria os arquivos baseado na fórmula de (A+C).</li>
+                <li><strong>RAID 0+1 (ou 10):</strong> Combina velocidade brutal e segurança imbatível (mas exige o dobro de hardware, no mínimo 4 discos).</li>
+            </ul>
+        </section>
+
+        <section id="arquivos-diretorios">
+            <h2>7. Sistemas de Arquivos e Diretórios (Aulas 24 e 25)</h2>
+            
+            <p>A organização lógica vai do Nível Único, Dois Níveis (por usuário), Árvores completas até os <strong>Grafos Acíclicos</strong>. Este último permite o compartilhamento inteligente (Links) sem duplicar espaço.</p>
+
+            <div class="callout danger">
+                <div class="callout-title">🚨 Ligações Unix: Hard Links vs SymLinks</div>
+                <p><strong>Hard Link (Ligação Rígida):</strong> É uma entrada nativa do diretório que aponta direto pro I-node físico no Disco. Esse Inode tem um <em>Contador de Referência</em> (`+= 1`). Se você deletar o arquivo original com <code>rm arquivo.txt</code>, o contador cai para 1, mas o dado físico no HD <strong>continua intacto, perfeito e acessível pelo Hard Link</strong>. Limitações: Proibido atravessar partições ou criar para diretórios (causaria loops infinitos no grafo).<br><br>
+                <strong>SymLink (Simbólico):</strong> É um arquivo-texto fofoqueiro que só diz "O caminho absoluto é /var/www/doc". Se o original for deletado, ele chuta pro nada e vira um <strong>Dangling Link (Link Órfão/Pendente)</strong>. Benefício: pode atravessar redes NFS externas e partições.</p>
+            </div>
+
+            <h3>Métodos de Alocação de Blocos</h3>
+            <ul>
+                <li><strong>Contígua:</strong> Blocos colados e absolutos. Leitura sequencial brutal. Defeito fatal: gera <strong>Fragmentação Externa</strong> com o tempo. Crescer o tamanho de um arquivo é quase impossível sem copiá-lo inteiro pro fim do disco.</li>
+                <li><strong>Encadeada:</strong> Bloquinhos estilo LinkedList. 4 bytes finais do bloco apontam para o próximo bloco no buraco que tiver no disco. Zero fragmentação externa. Custo fatal: <strong>Acesso Direto Randômico morre.</strong> Para ler a fatia 3.000 do vídeo, tem que atravessar fisicamente 2.999 blocos.</li>
+                <li><strong>FAT (File Allocation Table):</strong> Solução genial da Microsoft pro MS-DOS. Arrancou os 4 bytes da alocação encadeada e jogou TODOS os ponteiros numa Tabela que sobe pra RAM na inicialização. O acesso randomico volta a ser rápido e o bloco no disco fica 100% para os dados, mas o consumo de RAM é gigantesco para discos TB.</li>
+                <li><strong>Indexada (i-nodes - UNIX):</strong> O bloco pessoal do arquivo (FCB/Inode) guarda um array listando onde todos os blocos de dados estão espalhados no HD. Acesso randômico veloz e local.<br> 
+                <em>Arquivos Enormes (Indireção):</em> O Inode suporta apenas ~12 ponteiros diretos. Se faltar espaço, usa a <strong>Indireção Simples, Dupla e Tripla</strong>. Um ponteiro aponta para um bloco na RAM que abriga mais mil ponteiros. Escala o arquivo para Terabytes nativamente!</li>
+            </ul>
+
+            <h3>A Evolução: Journaling e VFS</h3>
+            <ul>
+                <li><strong>Consistência (fsck/sfc):</strong> Numa queda de energia, as estruturas ficavam pela metade. O fsck conta e recria listas de blocos vazios, mas demorava horas rastreando as árvores para corrigir metadados no boot.</li>
+                <li><strong>Journaling (Write-Ahead Log):</strong> O salvador. É um bloco sequencial onde o Kernel escreve seu diário e anota a "intenção" de cada transação (ex: "vou deletar inode X"). Se acabar a luz na metade do trabalho, o SO liga em milissegundos, lê o diário pendente e <strong>faz um Rollback ou Replay</strong> na transação, sem precisar mapear a árvore inteira.</li>
+                <li><strong>VFS (Virtual File System):</strong> É a abstração (Superblock, V-node) que deixa o Linux unificar as System Calls (<code>read</code>, <code>write</code>) para o pen-drive FAT, o HD NTFS e o SSD Ext4 simultaneamente na mesma árvore raiz, escondendo a implementação do DEV. O Linux unificou o <em>Cache de Buffer</em> (blocos HD) com o <em>Cache de Páginas</em> (paginação virtual) num Page Cache único para abolir dupla cópia.</li>
+            </ul>
+        </section>
+
+        <section id="gerencia-io">
+            <h2>8. Gerência de I/O (Entrada e Saída) (Aula 26)</h2>
+            
+            <p>O Processador sempre foi milhões de vezes mais veloz que dispositivos mecânicos ou placas externas.</p>
+            
+            <p>Dispositivos de <strong>Bloco</strong> operam endereços independentes (HD, SSD). Dispositivos de <strong>Caractere</strong> aceitam fluxo sequencial (teclado, mouse). O SO acessa todos eles pelos Registradores: Dados In, Dados Out, Controle e Status.</p>
+            
+            <h3>As Três Eras do Controle de Hardware</h3>
+            <ul>
+                <li><strong>Polling (Espera Ocupada / Programada):</strong> A CPU manda um Write para a placa e fica congelada num <code>while (ready != True)</code> em loop infinito, queimando bilhões de ciclos inúteis até o teclado devolver um clique. Atrofiamento extremo de recurso.</li>
+                <li><strong>Interrupção:</strong> O CPU delega. Manda a placa ler, salva o Contexto e vai rodar outro App. Quando a placa fica pronta, emite um choque elétrico <strong>(IRQ)</strong>. A CPU congela, salta para o <em>Interrupt Service Routine (ISR)</em>, cata os bytes e volta a rodar.</li>
+            </ul>
+
+            <div class="callout success">
+                <div class="callout-title">💡 DMA (Direct Memory Access / Cycle Stealing)</div>
+                <p>Em Placas Gigabit Ethernet ou NVMe entregando 4GB/s, ser interrompido Byte a Byte colapsaria a CPU, que ficaria presa atuando como motoboy cata-byte.<br>
+                O Chip DMA foi criado pra isso. O Kernel diz: "Transfira MBytes direto pra memória ram X". O DMA <strong>Rouba Ciclos do Barramento (Cycle Stealing)</strong> na calada, derrama os Mbytes diretos do NVMe pra RAM por trás da placa-mãe, e só levanta a interrupção IRQ para a CPU 1 única vez no final da empreitada gigante.</p>
+            </div>
+
+            <p><strong>Paradigmas de Programação (Sockets/Arquivos):</strong><br>
+            - <strong>Bloqueante (Síncrona):</strong> O Processo invoca o <code>read()</code>. O Kernel engaveta a Thread pra fila Blocked e suspende a execução até finalizar.<br>
+            - <strong>Não Bloqueante:</strong> Dá o call e já dá return (mesmo que com 0 bytes ou um flag de buffer vazio), e o App prossegue testando mais tarde (como o <code>select()</code> com vários clientes de rede).<br>
+            - <strong>Assíncrona:</strong> Manda executar e continua a vida. O S.O chama uma <em>callback function</em> ou evento via Signal quando a janta tiver servida no prato.</p>
+            
+            <h3>Spooling, Buffering e Temporizadores</h3>
+            <ul>
+                <li><strong>Spooling:</strong> Para hardware não compartilhável (impressoras), os processos gravam seus arquivos numa pasta Spool. O SO tem um <em>Daemon</em> que envia os arquivos em fila, evitando que meia página do App A seja misturada com o App B.</li>
+                <li><strong>Buffering:</strong> Uso de buffers (simples, duplos ou circulares) na memória para alinhar diferenças de velocidade gigantescas entre periféricos rápidos e o consumo pela CPU.</li>
+                <li><strong>Temporizador Programável (PIT):</strong> Relógio de hardware que emite dezenas de "tiques" IRQ por segundo. Crucial para o SO arrancar a CPU de um processo via <strong>Preempção</strong> e realizar a contagem do Quantum no escalonamento.</li>
+            </ul>
+        </section>
+
+        <section id="kernel-ebpf">
+            <h2>10. O Kernel Linux, Containers e Observabilidade eBPF (Aula 28)</h2>
+
+            <p>Todo o mundo de S.O se concretiza nas fábricas das nuvens (AWS / Kubernetes) e em Data Centers modernos:</p>
+
+            <ul>
+                <li><strong>Escalonamento de Threads VRuntime EEVDF:</strong> O amado CFS sumiu do Kernel moderno. Acoplaram no Linux > 6.6 o Earliest Eligible Virtual Deadline First (EEVDF) na Árvore Red-Black de O(1) para não prejudicar a Latência.</li>
+                <li><strong>Memória Core mm e OOM Killer:</strong> A Memória Virtual é guiada pelas `vm_area_struct`. Se a máquina sofre intenso esgotamento (Thrashing brutal), o Linux puxa a espada: A Atuação do OOM (Out Of Memory) Killer. Ele avalia RSS, Swaps (<code>oom_score</code>) e dita sentenças via SIGKILL nos processes gordos pra salvar a raiz vital. Definir <code>echo -1000 > oom_score_adj</code> torna seu App "imortal".</li>
+            </ul>
+
+            <div class="callout success">
+                <div class="callout-title">💡 Containers Docker: Ilusões no mesmo Kernel</div>
+                <p>Eles não usam hipervisor nem kernel duplo. A isolação ocorre via 3 primitivas principais do kernel hospedeiro:<br>
+                1. <strong>Namespaces:</strong> Filtro de Visão (O que o app vê). O contêiner recebe um <code>CLONE_NEWPID</code> jurando que ele tem PID 1, ganha uma Mount Network isolada, e User IDs virtuais.<br>
+                2. <strong>Cgroups (Control Groups):</strong> Filtro Físico (O que o app usa). O Cgroup amarra a RAM em 128MB e a CPU a "1 Core". Quem corta e invoca o OOM é o Cgroup.<br>
+                3. <strong>Copy-on-Write (OverlayFS):</strong> A Imagem original Read-Only não se clona fisicamente pra 10 instâncias. Uma camada superior CoW captura os poucos blocos alterados por contêiner sem corromper a base comum.</p>
+            </div>
+
+            <div class="callout danger">
+                <div class="callout-title">🚨 eBPF (A Revolução de Observabilidade)</div>
+                <p>O <strong>eBPF (Extended Berkeley Packet Filter)</strong> é o Santo Graal do Linux moderno. Em vez de injetar Módulos em C que podem causar Kernel Panics travando servidores inteiros, o eBPF possui um <em>Verificador JIT (Just-In-Time)</em> que lê pequenos scripts no seu bash (ex: <code>bpftrace</code>). Ele atesta matematicamente que seu script não fará Loops Infinitos ou Pointers nulos e "injeta-os" via ganchos ultra rápidos de <strong>kprobes/tracepoints</strong> nos confins do kernel.<br><br>
+                Resultado: Você enxerga <code>sched_switch</code>, Page Faults, XDP de Rede e latências mecânicas de IO ao vivo e a cores, sem impacto no desempenho. Todos os conceitos que você estudou nesta disciplina de Sistemas Operacionais (P2) rodam debaixo dos panos ali para os olhos atentos.</p>
+            </div>
+        </section>
+
+    </main>
 </body>
-
 </html>
